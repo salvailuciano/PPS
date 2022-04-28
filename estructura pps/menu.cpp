@@ -33,6 +33,16 @@
 
 
 
+float aux = 0.0; //Definimos la variable auxiliar
+  int i=0;
+  float lectura[5]  ;//Definimos la variable value
+
+   for(i=0;i<6;i++)
+  {
+       lectura[i]= readyprom(i);
+  
+  }
+
 
 void mostrarValores(){
  switch (page_counter) {
