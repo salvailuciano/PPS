@@ -5,7 +5,6 @@
  * LCD Menu Messages
  * Please note these are limited to 17 characters!
  *
- */
 #ifndef LANGUAGE_ES_H
 #define LANGUAGE_ES_H
 
