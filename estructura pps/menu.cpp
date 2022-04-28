@@ -32,7 +32,8 @@
   menu.update();
 
 
-
+main()
+{
 float aux = 0.0; //Definimos la variable auxiliar
   int i=0;
   float lectura[5]  ;//Definimos la variable value
@@ -42,6 +43,34 @@ float aux = 0.0; //Definimos la variable auxiliar
        lectura[i]= readyprom(i);
   
   }
+
+
+ selectOption();
+
+  stateA = digitalRead(outputA); 
+    if (stateA != stateB){     
+      if (digitalRead(outputB) != stateA) { 
+        menu.switch_focus(true);
+      } else {
+   
+        menu.switch_focus(false);
+      }
+      if(page_counter!=0)
+      {
+       if (digitalRead(outputB) != stateA) { 
+       page_counter= page_counter -1; 
+      } else {
+        page_counter= page_counter +1;
+      }
+      if (page_counter>3) page_counter=1;
+      if (page_counter<1) page_counter=3;
+      }
+      menu.update();
+      stateB = stateA;
+  }
+
+}
+
 
 
 void mostrarValores(){
@@ -86,7 +115,7 @@ void mostrarValores(){
     break;
     
   }//switch end
-
+  
   ///////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////
 
 //Funciones:::::
