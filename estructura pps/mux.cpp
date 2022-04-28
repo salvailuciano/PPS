@@ -1,3 +1,8 @@
+//Mux
+#define channelA 5
+#define channelB 6
+#define channelC 7
+
 float readyprom(int canal){
   
   float valoresPromedio;
