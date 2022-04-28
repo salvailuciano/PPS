@@ -86,3 +86,10 @@ void mostrarValores(){
     break;
     
   }//switch end
+
+  
+  void fn_atras(){
+  menu.change_screen(1);
+  menu.set_focusedLine(0);
+  page_counter=0;
+}
