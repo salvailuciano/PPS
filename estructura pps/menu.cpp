@@ -30,3 +30,49 @@
   pantalla3.set_displayLineCount(2);
   menu.set_focusedLine(0);
   menu.update();
+
+
+
+
+void mostrarValores(){
+ switch (page_counter) {
+   
+    case 1:{     //Design of home page 1
+      
+      lcd.setCursor(0,0);
+      lcd.print("Isal:"); lcd.print(corriente,0); lcd.print("A");
+   
+      lcd.setCursor(9,0);
+        
+      lcd.print("Pd:");
+      if (potenciad<=200)
+      {
+      lcd.print(potenciad,0); 
+      lcd.print("W");
+      }
+      else
+      lcd.print("200W"); 
+      
+      lcd.setCursor(0,1);
+      lcd.print("Vex:"); lcd.print(vex,0); lcd.print("V");
+      
+      lcd.setCursor(9,1);
+      lcd.print("AG:"); lcd.print(agc,1); lcd.print("V");
+    }
+    break;
+    case 2: { //Design of page 2 
+     lcd.setCursor(0,0);
+     lcd.print("This is");
+     lcd.setCursor(0,1);
+     lcd.print("Page 2");
+    }
+    break;
+    case 3: {   //Design of page 3 
+     lcd.setCursor(0,0);
+     lcd.print("You are now on");
+     lcd.setCursor(0,1);
+     lcd.print("Page 3");
+    }
+    break;
+    
+  }//switch end
