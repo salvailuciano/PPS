@@ -118,10 +118,10 @@ void fn_led2(){
   menu.change_screen(3);
   menu.set_focusedLine(0);
 }
-*/
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void mostrarValores(){
- /*switch (page_counter) {
+ switch (page_counter) {
    
     case 1:{     //Design of home page 1
       
