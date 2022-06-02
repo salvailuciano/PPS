@@ -42,7 +42,6 @@ float valor6 = 0;
 int page_counter=0 ;       //To move beetwen pages
 
 
-
 /*
 LiquidLine linea1(1, 0, "Valores 1");
 LiquidLine linea4(1, 1, "Modificar Parametro");
@@ -127,6 +126,14 @@ void loop() {
   float aux = 0.0; //Definimos la variable auxiliar
   int i=0;
   float lectura[5]  ;//Definimos la variable value
+
+
+for (i=0;i<10;i++)
+{
+  printf("Nico_Sape");
+  }
+
+
 
    for(i=0;i<6;i++)
   {
