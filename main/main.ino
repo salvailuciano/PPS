@@ -4,9 +4,9 @@
  *  
  **********************************/
 
-#include "definesConfiguraciones.h"
 #include "menu.h"
 #include "promediador.h"
+#include "mux.h"
 
 const float Iparametro  = 0.1;
 //const float Pdparametro  = 1033.05;//(v*v/100)*pdparametro
@@ -67,6 +67,6 @@ void loop() {
   
   selectOption();
   encoder(pagina);
-  if(pagina!=0) mostrarValores(corriente,potenciad,vex,agc);
+  if(pagina!=0)mostrarValores(corriente,potenciad,vex,agc);
   
 }

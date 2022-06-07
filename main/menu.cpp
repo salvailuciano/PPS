@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "menu.h"
+#include "definesConfiguraciones.h"
 #include <LiquidCrystal_I2C.h>
 #include <LiquidMenu.h>
 
@@ -166,7 +167,6 @@ void selectOption(){
 void fn_led1(){
    
   page_counter = 1;
- // mostrarValores(5,5,5,5);
   lcd.clear();  
   menu.change_screen(2);
   menu.set_focusedLine(0);

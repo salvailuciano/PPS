@@ -1,20 +1,8 @@
 #include <Arduino.h>
-//Mux
-#define channelA 5
-#define channelB 6
-#define channelC 7
+#include "mux.h"
 #define MUESTRAS 10
 
-void setup_mux()
-{
-pinMode(channelA, OUTPUT);
-pinMode(channelB, OUTPUT);
-pinMode(channelC, OUTPUT);
 
-digitalWrite(channelA, LOW);
-digitalWrite(channelB, LOW);
-digitalWrite(channelC, LOW);
-}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 float readyprom(int canal){
   
