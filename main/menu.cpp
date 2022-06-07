@@ -4,7 +4,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <LiquidMenu.h>
 
-
 LiquidCrystal_I2C lcd(0x3f, 16, 2);
 
 //ENCODER
@@ -30,12 +29,11 @@ LiquidLine linea3_3(1, 0, "Atras");
 LiquidScreen pantalla3(linea1_3,linea2_3,linea3_3);
 
 LiquidMenu menu(lcd,pantalla1,pantalla2,pantalla3);
-
-
-void setup_menu(){
-  
+/////////////////////////////////////////////////////SETUP MENU//////////////////////////////////////////////////
+void setup_menu()
+{
   lcd.init();
-//lcd.begin();
+  //lcd.begin();
   lcd.backlight();
   pinMode(sw,INPUT_PULLUP);
   
@@ -70,52 +68,56 @@ void setup_menu(){
   pantalla3.set_displayLineCount(2);
   menu.set_focusedLine(0);
   menu.update();
-
 }
-
+///////////////////////////////////////////////////////FUNCION ENCODER//////////////////////////////////////////////////////////////////  
 void encoder(int pagina)
 {
   stateA = digitalRead(outputA); 
-    if (stateA != stateB){     
-      if (digitalRead(outputB) != stateA) { 
-
-        menu.switch_focus(true);
-      } else {
-   
-        menu.switch_focus(false);
-      }
-      if(page_counter!=0)
+  if (stateA != stateB)
+  {
+    if (digitalRead(outputB) != stateA) 
+    {
+      menu.switch_focus(true);
+    } 
+    else 
+    {
+      menu.switch_focus(false);
+    }
+    if(page_counter!=0)
+    {
+      if (digitalRead(outputB) != stateA) 
       {
-       if (digitalRead(outputB) != stateA) { 
-       page_counter= page_counter -1; 
-      } else {
+        page_counter= page_counter -1; 
+      } 
+      else 
+      {
         page_counter= page_counter +1;
       }
       if (page_counter>3) page_counter=1;
       if (page_counter<1) page_counter=3;
-      }
-      menu.update();
-      stateB = stateA;
-  }  
-  pagina = page_counter;
+    }
+    menu.update();
+    stateB = stateA;
   }
-
-
-void mostrarValores(float a,float b,float c,float d){
- switch (page_counter) {
-   
-    case 1:{     //Design of home page 1
-      
+  pagina = page_counter;
+}
+///////////////////////////////////////////////////////FUNCION PARA MOSTRAR VALORES EN PANTALLA//////////////////////////////////////////////////////////////////  
+void mostrarValores(float a,float b,float c,float d)
+{
+  switch (page_counter) 
+  {
+    case 1: //Design of home page 1
+    {     
       lcd.setCursor(0,0);
       lcd.print("Isal:"); lcd.print(a,0); lcd.print("A");
-   
+ 
       lcd.setCursor(9,0);
         
       lcd.print("Pd:");
       if (b<=200)
       {
-      lcd.print(b,0); 
-      lcd.print("W");
+        lcd.print(b,0); 
+        lcd.print("W");
       }
       else
       lcd.print("200W"); 
@@ -127,51 +129,53 @@ void mostrarValores(float a,float b,float c,float d){
       lcd.print("AG:"); lcd.print(d,1); lcd.print("V");
     }
     break;
-    case 2: { //Design of page 2 
+    case 2: //Design of page 2
+    {  
      lcd.setCursor(0,0);
      lcd.print("This is");
      lcd.setCursor(0,1);
      lcd.print("Page 2");
     }
     break;
-    case 3: {   //Design of page 3 
+    case 3: //Design of page 3 
+    {   
      lcd.setCursor(0,0);
      lcd.print("You are now on");
      lcd.setCursor(0,1);
      lcd.print("Page 3");
     }
     break;
-    
   }//switch end
 }
 
-  
-  ///////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////
-
-//Funciones:::::
-void selectOption(){
-  if(digitalRead(sw) == LOW){
-     lcd.clear(); 
-      menu.call_function(1);
-      delay(500);
+///////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////
+void selectOption()
+{
+  if(digitalRead(sw) == LOW)
+  {
+    lcd.clear(); 
+    menu.call_function(1);
+    delay(500);
   }
 }
-
-  void fn_atras(){
+/////////////////////////////
+void fn_atras()
+{
   menu.change_screen(1);
   menu.set_focusedLine(0);
   page_counter=0;
 }
-
-
-void fn_led1(){
-   
+/////////////////////////////
+void fn_led1()
+{
   page_counter = 1;
   lcd.clear();  
   menu.change_screen(2);
   menu.set_focusedLine(0);
 }
-void fn_led2(){
+/////////////////////////////
+void fn_led2()
+{
   menu.change_screen(3);
   menu.set_focusedLine(0);
 }

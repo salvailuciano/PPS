@@ -1,70 +1,24 @@
 #include <Arduino.h>
-#include "mux.h"
-#define MUESTRAS 10
+#include "mux.h"//Para mi esta libreria no la usa
+#define MUESTRAS 10 //Cantidad de muestras a promediar
 
+///////////////////////////////PROMEDIADOR/////////////////////////////////////
+//El canal ya fue seleccionado en selectChannelMux(i);, entonces por ese canal se toman las muestras a promediar
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-float readyprom(int canal){
+float readyprom()
+{
+  float valorPromedio;
+  float acumprom=0;   //acumulador
+  int j=0;  //contador
   
-  float valoresPromedio;
-  float acumprom=0; 
-  int j=0;
-
-    switch(canal)
-    {
-      
-      case 0: 
-              digitalWrite(channelA, 0);
-              digitalWrite(channelB, 0);
-              digitalWrite(channelC, 0);
-              delay(50);
-              break; 
-      case 1:
-      
-              digitalWrite(channelA, 1);
-              digitalWrite(channelB, 0);
-              digitalWrite(channelC, 0);
-              delay(50);
-              break;
-      case 2:
-      
-              digitalWrite(channelA, 0);
-              digitalWrite(channelB, 1);
-              digitalWrite(channelC, 0);
-              delay(50);
-              break;
-      case 3:
-      
-              digitalWrite(channelA, 1);
-              digitalWrite(channelB, 1);
-              digitalWrite(channelC, 0);
-              delay(50);
-              break;
-    /*  case 4:
-      
-              digitalWrite(channelA, 0);
-              digitalWrite(channelB, 0);
-              digitalWrite(channelC, 1);
-              delay(50);
-              break;
-      case 5:
-      
-              digitalWrite(channelA, 1);
-              digitalWrite(channelB, 0);
-              digitalWrite(channelC, 1);
-              delay(10);
-              break;
-              */
-      }
- 
-    for(j=0;j<MUESTRAS;j++)
-    {
-    valoresPromedio = analogRead(0); //Leemos el pin analógico Ai  
-    acumprom+= valoresPromedio ;
-    }
-    valoresPromedio = acumprom / MUESTRAS;
-    acumprom = 0;
-    return valoresPromedio;
+  for(j=0;j<MUESTRAS;j++)
+  {
+    valorPromedio = analogRead(0); //Leemos el pin analógico Ai  
+    acumprom+= valorPromedio ; //Se acumulan los valores de la cantidad de muestras
   }
+    valorPromedio = acumprom / MUESTRAS; //Se calcula el promedio
+    acumprom = 0;
+    return valorPromedio; //Retorna el valor promedio de la cantidad de muestras
+}
 
   
