@@ -1,12 +1,5 @@
 
-**
- * Spanish
- *
- * LCD Menu Messages
- * Please note these are limited to 17 characters!
- *
-#ifndef LANGUAGE_ES_H
-#define LANGUAGE_ES_H
+
 
 #define WELCOME_MSG                         MACHINE_NAME " lista."
 #define MSG_SD_INSERTED                     "Tarjeta colocada"
@@ -141,10 +134,10 @@
 #define MSG_RETRACT_ARROW                   "Retraer \x7E"
 #define MSG_STEPPER_RELEASED                "Desacoplada."
 
-#ifdef DELTA_CALIBRATION_MENU
+/*#ifdef DELTA_CALIBRATION_MENU
     #define MSG_DELTA_CALIBRATE             "Delta Calibration"
     #define MSG_DELTA_CALIBRATE_X           "Calibrate X"
     #define MSG_DELTA_CALIBRATE_Y           "Calibrate Y"
     #define MSG_DELTA_CALIBRATE_Z           "Calibrate Z"
     #define MSG_DELTA_CALIBRATE_CENTER      "Calibrate Center"
-#endif // DELTA_CALIBRATION_MENU
+#endif // DELTA_CALIBRATION_MENU*/

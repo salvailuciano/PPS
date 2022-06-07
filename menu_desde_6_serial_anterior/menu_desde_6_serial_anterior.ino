@@ -12,8 +12,8 @@ LiquidCrystal_I2C lcd(0x3f, 16, 2);
 #define MUESTRAS 10
 
 //ENCODER
-//#define outputA 3
-//#define outputB 4
+#define outputA 3
+#define outputB 4
 #define sw 8
 
 //Mux
@@ -43,7 +43,7 @@ int page_counter=0 ;       //To move beetwen pages
 
 
 
-/*
+
 LiquidLine linea1(1, 0, "Valores 1");
 LiquidLine linea4(1, 1, "Modificar Parametro");
 LiquidScreen pantalla1(linea1,linea4);
@@ -59,7 +59,7 @@ LiquidLine linea3_3(1, 0, "Atras");
 LiquidScreen pantalla3(linea1_3,linea2_3,linea3_3);
 
 LiquidMenu menu(lcd,pantalla1,pantalla2,pantalla3);
-*/
+
 ////////////////////////////////////////////////////////////SETUP//////////////////////////////////////////////////////////////////
 void setup() {
 
@@ -75,7 +75,7 @@ pinMode(channelC, OUTPUT);
 digitalWrite(channelA, LOW);
 digitalWrite(channelB, LOW);
 digitalWrite(channelC, LOW);
-/*  
+  
  lcd.init();
 //  lcd.begin();
   lcd.backlight();
@@ -119,7 +119,7 @@ digitalWrite(channelC, LOW);
 
 
   menu.update();
-*/
+
 }
 ////////////////////////////////////////////////////////////LOOP//////////////////////////////////////////////////////////////////
 void loop() {
@@ -153,7 +153,7 @@ void loop() {
   
   //selectOption();
 
-  /*
+  
   stateA = digitalRead(outputA); 
     if (stateA != stateB){     
       if (digitalRead(outputB) != stateA) { 
@@ -175,13 +175,13 @@ void loop() {
       }
       menu.update();
       stateB = stateA;
-  }*/
+  }
   
   mostrarValores();
   //if(page_counter!=0) 
 }
 ////////////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////
-/*
+
 //Funciones:::::
 void selectOption(){
   if(digitalRead(sw) == LOW){
@@ -190,12 +190,11 @@ void selectOption(){
       delay(500);
   }
 }
-*/
-/*
+
 void fn_led1(){
    
   page_counter = 1;
-  Valores();
+  mostrarValores();
   lcd.clear();  
   menu.change_screen(2);
   menu.set_focusedLine(0);
@@ -206,10 +205,10 @@ void fn_led2(){
   menu.set_focusedLine(0);
 
 }
-*/
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 void mostrarValores(){
- /*switch (page_counter) {
+ switch (page_counter) {
    
     case 1:{     //Design of home page 1
       
@@ -252,7 +251,7 @@ void mostrarValores(){
     break;
     
   }//switch end
-*/
+
 
 Serial.print("corriente: ");
 Serial.println(corriente);
@@ -270,13 +269,13 @@ delay(200);
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
+
 void fn_atras(){
   menu.change_screen(1);
   menu.set_focusedLine(0);
   page_counter=0;
 }
-*/
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 float readyprom(int canal){
   
