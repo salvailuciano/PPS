@@ -3,8 +3,7 @@
 
 /////////////////////////////////////////////////////SETUP///////////////////////////////////////////////////
 //Inicializacion del multiplexor
-void setup_mux()
-{
+void setup_mux(){
   pinMode(channelA, OUTPUT);
   pinMode(channelB, OUTPUT);
   pinMode(channelC, OUTPUT);
@@ -15,10 +14,8 @@ void setup_mux()
 }
 /////////////////////////Seleccion del canal del multiplexor/////////////////////////
 //Con los 3 digitalWrite de cada case, se selecciona con los pines de control del mux, el canal que se va a leer
-void selectChannelMux(int canal)
-{
-  switch(canal)
-  {
+void selectChannelMux(int canal){
+  switch(canal){
     case 0:                           
             digitalWrite(channelA, 0);//         C B A  
             digitalWrite(channelB, 0);//         0 0 0

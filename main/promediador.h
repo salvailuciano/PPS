@@ -1,4 +1,4 @@
 
 
 
-float readyprom();
+float readyProm();

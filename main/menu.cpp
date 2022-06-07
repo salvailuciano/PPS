@@ -30,8 +30,7 @@ LiquidScreen pantalla3(linea1_3,linea2_3,linea3_3);
 
 LiquidMenu menu(lcd,pantalla1,pantalla2,pantalla3);
 /////////////////////////////////////////////////////SETUP MENU//////////////////////////////////////////////////
-void setup_menu()
-{
+void setup_menu(){
   lcd.init();
   //lcd.begin();
   lcd.backlight();
@@ -70,27 +69,20 @@ void setup_menu()
   menu.update();
 }
 ///////////////////////////////////////////////////////FUNCION ENCODER//////////////////////////////////////////////////////////////////  
-void encoder(int pagina)
-{
+void encoder(int pagina){
   stateA = digitalRead(outputA); 
-  if (stateA != stateB)
-  {
-    if (digitalRead(outputB) != stateA) 
-    {
+  if (stateA != stateB){
+    if (digitalRead(outputB) != stateA){
       menu.switch_focus(true);
-    } 
-    else 
-    {
+    }
+    else{
       menu.switch_focus(false);
     }
-    if(page_counter!=0)
-    {
-      if (digitalRead(outputB) != stateA) 
-      {
+    if(page_counter!=0){
+      if (digitalRead(outputB) != stateA) {
         page_counter= page_counter -1; 
-      } 
-      else 
-      {
+      }
+      else{
         page_counter= page_counter +1;
       }
       if (page_counter>3) page_counter=1;
@@ -102,80 +94,66 @@ void encoder(int pagina)
   pagina = page_counter;
 }
 ///////////////////////////////////////////////////////FUNCION PARA MOSTRAR VALORES EN PANTALLA//////////////////////////////////////////////////////////////////  
-void mostrarValores(float a,float b,float c,float d)
-{
-  switch (page_counter) 
-  {
-    case 1: //Design of home page 1
-    {     
+void mostrarValores(float a,float b,float c,float d){
+  switch (page_counter){
+    case 1: //Design of home page 1     
       lcd.setCursor(0,0);
       lcd.print("Isal:"); lcd.print(a,0); lcd.print("A");
  
       lcd.setCursor(9,0);
         
       lcd.print("Pd:");
-      if (b<=200)
-      {
+      if (b<=200){
         lcd.print(b,0); 
         lcd.print("W");
       }
-      else
-      lcd.print("200W"); 
-      
+      else{ //VER ESTO DESPUES!!!!!!! URGENTE
+        lcd.print("200W"); 
+      }
       lcd.setCursor(0,1);
       lcd.print("Vex:"); lcd.print(c,0); lcd.print("V");
       
       lcd.setCursor(9,1);
       lcd.print("AG:"); lcd.print(d,1); lcd.print("V");
-    }
-    break;
+      break;
     case 2: //Design of page 2
-    {  
-     lcd.setCursor(0,0);
-     lcd.print("This is");
-     lcd.setCursor(0,1);
-     lcd.print("Page 2");
-    }
-    break;
+      lcd.setCursor(0,0);
+      lcd.print("This is");
+      lcd.setCursor(0,1);
+      lcd.print("Page 2");
+      break;
     case 3: //Design of page 3 
-    {   
-     lcd.setCursor(0,0);
-     lcd.print("You are now on");
-     lcd.setCursor(0,1);
-     lcd.print("Page 3");
-    }
-    break;
-  }//switch end
+      lcd.setCursor(0,0);
+      lcd.print("You are now on");
+      lcd.setCursor(0,1);
+      lcd.print("Page 3");
+      break;
+  }
 }
 
 ///////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////
-void selectOption()
-{
-  if(digitalRead(sw) == LOW)
-  {
+void selectOption(){
+  if(digitalRead(sw) == LOW){
     lcd.clear(); 
     menu.call_function(1);
     delay(500);
   }
 }
 /////////////////////////////
-void fn_atras()
-{
+void fn_atras(){
   menu.change_screen(1);
   menu.set_focusedLine(0);
   page_counter=0;
 }
 /////////////////////////////
-void fn_led1()
-{
+void fn_led1(){
   page_counter = 1;
   lcd.clear();  
   menu.change_screen(2);
   menu.set_focusedLine(0);
 }
 /////////////////////////////
-void fn_led2()
-{
+void fn_led2(){
   menu.change_screen(3);
   menu.set_focusedLine(0);
 }
