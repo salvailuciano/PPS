@@ -166,13 +166,13 @@ void mostrarValores(float a,float b,float c,float d){
         lcd.print(b,0); 
         lcd.print("W");
       }
-      else{ //VER ESTO DESPUES!!!!!!! URGENTE
+      else{
         lcd.print("200W"); 
       }
       delay(100);
       break;
     case 2: //Design of page 2
-     lcd.setCursor(0,0);
+      lcd.setCursor(0,0);
       lcd.print(VARIABLE3); lcd.print(c,0); lcd.print("V");
       lcd.setCursor(0,1);
       lcd.print(VARIABLE4); lcd.print(d,1); lcd.print("V");
