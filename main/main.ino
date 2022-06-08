@@ -9,24 +9,25 @@ link del repositorio de github: https://github.com/salvailuciano/PPS
 #include "menu.h"
 #include "promediador.h"
 #include "mux.h"
+#include "Button.h"
 
 //Variables Utiles//
 const int cantidadMediciones = 4;
-int pagina=1;
-
 //Variables auxiliares para calculo de ADC//
 const float Iparametro  = 0.1;
+
 //const float Pdparametro  = 1033.05;//(v*v/100)*pdparametro
 const float Pdparametro  = 1250;
 const float Vexparametro  = 0.1;
 const float Agcparametro  = 1;
-const int numReadings = 10; 
 
 //Variables a mostrar en pantalla//
 float corriente = 0.0;
 float potenciad = 0.0;
 float vex = 0.0;
 float agc = 0.0;
+
+
 
 ////////////////////////////////////////////////////////////SETUP//////////////////////////////////////////////////////////////////
 void setup(){
@@ -45,7 +46,8 @@ void loop(){
 // "i=0" Contador importante, por que es el que indica el valor adentro del arreglo
   for(int i=0; i < cantidadMediciones; i++){
     selectChannelMux(i); //Selecciona el canal del multiplexor para tomar la entrada a promediar
-    lectura[i] = readyProm();  //Toma (lee entrada) las MUESTRAS y carga el valor ya promediado en lectura[i]
+    //lectura[i] = readyProm();  //Toma (lee entrada) las MUESTRAS y carga el valor ya promediado en lectura[i]
+   lectura[i] = analogRead(i); // Solo para test sin promediador
   }
 
 /////////////////////////////ARREGLO DE LECTURAS/////////////////////////////
@@ -57,28 +59,28 @@ void loop(){
   Serial.println("calculando");
   aux = (lectura[0] * 5.0) / 1024.0; // Cálculo para obtener el aux //Valor * voltaje/BitsADC
   corriente = aux /Iparametro; // Cálculo para obtener Vin del divisor de tensión
-  corriente = (lectura[0]*5) / 1024;
+ // corriente = (lectura[0]*5) / 1024;// Solo para test
   
   aux = (lectura[1] * 5.0) / 1024.0;
   aux = (aux*aux)/100;
   potenciad = aux *Pdparametro;
-  potenciad = (lectura[1]*5) / 1024;
+ // potenciad = (lectura[1]*5) / 1024;// Solo para test sin el parametro
   
   aux = (lectura[2] * 5.0) / 1024.0;
   vex = aux /Iparametro;
-  vex = (lectura[2]*5) / 1024;
+ // vex = (lectura[2]*5) / 1024;// Solo para test sin el parametro
   
   aux = (lectura[3] * 5.0) / 1024.0;
   agc = aux /Agcparametro;
-  agc = (lectura[3]*5) / 1024;
+ // agc = (lectura[3]*5) / 1024; // Solo para test sin el parametro
   
-  ///////////////////////Funciones para el menu y el encoder///////////////////////////////////
-  selectOption();
-  encoder(pagina);
-
-  //Muestra valores en pantalla si pagina es distinto de "0"
-  if(pagina!=0){
-    mostrarValores(corriente,potenciad,vex,agc);
-  }
+///////////////////////Funciones para el menu y los botones///////////////////////////////////
+ //mostrarValores (corriente,potenciad,vex,agc);
+ leerBotones();
+ 
+//Muestra valores en pantalla si medicion es distinto de "0" , es decir si no esta en modo configuración
+  
+  mostrarValores(corriente,potenciad,vex,agc);
+  
 }
 /////////////////////////////////////////////////////////TERMINA EL LOOP//////////////////////////////////////////////////////////////

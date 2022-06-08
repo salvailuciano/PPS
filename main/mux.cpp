@@ -20,25 +20,25 @@ void selectChannelMux(int canal){
             digitalWrite(channelA, 0);//         C B A  
             digitalWrite(channelB, 0);//         0 0 0
             digitalWrite(channelC, 0);
-            delay(50);
+            delay(10);
             break; 
     case 1:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 0);//         0 0 1
             digitalWrite(channelC, 0);
-            delay(50);
+            delay(10);
             break;
     case 2:
             digitalWrite(channelA, 0);//         C B A
             digitalWrite(channelB, 1);//         0 1 0
             digitalWrite(channelC, 0);
-            delay(50);
+            delay(10);
             break;
     case 3:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 1);//         0 1 1
             digitalWrite(channelC, 0);
-            delay(50);
+            delay(10);
             break;
 /*  case 4:
             digitalWrite(channelA, 0);//         C B A

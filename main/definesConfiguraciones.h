@@ -1,4 +1,8 @@
 
+#define VARIABLE1                         "Corriente: "
+#define VARIABLE2                         "Potencia: "
+#define VARIABLE3                         "Voltaje Ex: "
+#define VARIABLE4                         "AG: "
 
 
 #define WELCOME_MSG                         MACHINE_NAME " lista."

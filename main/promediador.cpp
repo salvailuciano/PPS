@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "mux.h"//Para mi esta libreria no la usa
-#define MUESTRAS 10 //Cantidad de muestras a promediar
+#define MUESTRAS 100 //Cantidad de muestras a promediar
 
 ///////////////////////////////PROMEDIADOR Y LEE ENTRADAS/////////////////////////////////////
 //El canal ya fue seleccionado en selectChannelMux(i);, entonces por ese canal se toman las muestras a promediar
