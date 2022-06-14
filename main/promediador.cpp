@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "mux.h"//Para mi esta libreria no la usa
 #define MUESTRAS 100 //Cantidad de muestras a promediar
 
 ///////////////////////////////PROMEDIADOR Y LEE ENTRADAS/////////////////////////////////////

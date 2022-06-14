@@ -2,10 +2,41 @@
 #include "menu.h"
 #include "Button.h"
 #include "definesConfiguraciones.h"
-#include <LiquidCrystal_I2C.h>
+//#include <LiquidCrystal_I2C.h> //Descomentar para I2C
+#include <LiquidCrystal.h> // Funcion para coneccion de LCD por piner de Datos
 #include <LiquidMenu.h>
 
-LiquidCrystal_I2C lcd(0x3f, 16, 2);
+/*
+The circuit:
+ * LCD RS pin to digital pin 12
+ * LCD Enable pin to digital pin 11
+ * LCD D4 pin to digital pin 4
+ * LCD D5 pin to digital pin 5
+ * LCD D6 pin to digital pin 6
+ * LCD D7 pin to digital pin 7
+ * LCD R/W pin to ground
+ * LCD VSS pin to ground
+ * LCD VCC pin to 5V
+ * 10K resistor:
+ * ends to +5V and ground
+ * wiper to LCD VO pin (pin 3)
+ */
+
+/////////////////////////////////LCD COMUN LUCHETE (NO I2C)//////////////////////////////
+// Pin mapping for the display
+const byte LCD_RS = 9;
+const byte LCD_E = 8;
+const byte LCD_D4 = 4;
+const byte LCD_D5 = 5;   
+const byte LCD_D6 = 6;
+const byte LCD_D7 = 7;
+//LCD R/W pin to ground
+//10K potentiometer to VO
+LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+///////////////////////////////////////////////////////////////////////////////
+
+
+//LiquidCrystal_I2C lcd(0x3f, 16, 2); //Descomentar si se usa I2C
 
 const int cantidadMediciones = 4;
 
@@ -23,9 +54,9 @@ float analogValue[cantidadMediciones];
 const bool pullup = true;
 //Button left(12, pullup);
 //Button right(11, pullup);
-Button up(10, pullup);
-Button down(9, pullup);
-Button enter(8, pullup);
+Button up(12, pullup);
+Button down(11, pullup);
+Button enter(10, pullup);
 
 //////////////////////////////////////////////MENUES Y CONTENIDO//////////////////////////////////////////////////
 LiquidLine linea1(1, 0, "Valores 1");
@@ -52,11 +83,10 @@ LiquidScreen pantalla3(linea1_3,linea2_3,linea3_3);
 LiquidMenu menu(lcd,pantalla2,pantalla1,pantalla3);
 //////////////////////////////////////FUNCIONES LIGADAS AL MENU//////////////////////////////////////////////////
 void setup_menu(){
-  lcd.init();
-  //lcd.begin();
-  lcd.backlight();
-  //pinMode(Enter,INPUT_PULLUP);
-  
+//  lcd.init(); //Descomentar para I2C
+lcd.begin(16, 2); //Comentar si se usa I2C
+//  lcd.backlight(); // Descomentar para I2C
+
   menu.init();
   linea1.set_focusPosition(Position::LEFT); 
   linea4.set_focusPosition(Position::LEFT); 
