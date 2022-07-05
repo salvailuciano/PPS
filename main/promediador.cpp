@@ -14,14 +14,3 @@ float calcularProm(float arreglo[]){
   acumProm  = 0;
   return valorPromedio;//Retorna  el valor  promedio  de la cantidad  de muestras
 }
-
-/*float calcularProm(float arreglo[]){
-  float valorPromedio[2];
-  float acumProm=0;
-  for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    acumProm += arreglo[muestraActual];
-  }
-  valorPromedio = acumProm / cantidadMuestras;
-  acumProm  = 0;
-  return valorPromedio;//Retorna  el valor  promedio  de la cantidad  de muestras
-}*/
