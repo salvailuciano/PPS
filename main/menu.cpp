@@ -38,7 +38,7 @@ LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
 //LiquidCrystal_I2C lcd(0x3f, 16, 2); //Descomentar si se usa I2C
 
-const int cantidadMediciones = 4;
+//const int cantidadMediciones = 4;
 
 int medicion=1 ;       //Variable que indica si esta en modo medicion o configuracion
 int page_counter=1 ;       //To move beetwen pages

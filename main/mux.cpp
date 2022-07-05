@@ -20,49 +20,49 @@ void selectChannelMux(int canal){
             digitalWrite(channelA, 0);//         C B A  
             digitalWrite(channelB, 0);//         0 0 0
             digitalWrite(channelC, 0);
-            delay(10);
+            Serial.println("##-MUX CANAL 0-##");
             break; 
     case 1:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 0);//         0 0 1
             digitalWrite(channelC, 0);
-            delay(10);
+            Serial.println("##-MUX CANAL 1-##");
             break;
     case 2:
             digitalWrite(channelA, 0);//         C B A
             digitalWrite(channelB, 1);//         0 1 0
             digitalWrite(channelC, 0);
-            delay(10);
+            Serial.println("##-MUX CANAL 2-##");
             break;
     case 3:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 1);//         0 1 1
             digitalWrite(channelC, 0);
-            delay(10);
+            Serial.println("##-MUX CANAL 3-##");
             break;
 /*  case 4:
             digitalWrite(channelA, 0);//         C B A
             digitalWrite(channelB, 0);//         1 0 0
             digitalWrite(channelC, 1);
-            delay(50);
+            Serial.println("##-MUX CANAL 4-##");
             break;
     case 5:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 0);//         1 0 1
             digitalWrite(channelC, 1);
-            delay(10);
+            Serial.println("##-MUX CANAL 5-##");
             break; 
     case 6:
             digitalWrite(channelA, 0);//         C B A
             digitalWrite(channelB, 1);//         1 1 0
             digitalWrite(channelC, 1);
-            delay(10);
+            Serial.println("##-MUX CANAL 6-##");
             break;
     case 7:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 1);//         1 1 1
             digitalWrite(channelC, 1);
-            delay(10);
+            Serial.println("##-MUX CANAL 7-##");
             break; */
   }
 }
