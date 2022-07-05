@@ -54,8 +54,8 @@ const float parametroVexc = 1;
 const float parametroVaux = 1;
 const float parametroVlinea = 1;
 
-#define inInterrupcion_2 2 // Se define pin 2 para interrupcion
-#define inInterrupcion_3 3 // Se define pin 3 para interrupcion
+#define inInterrupcion_2 36 // Se define pin 2 para interrupcion
+#define inInterrupcion_3 39 // Se define pin 3 para interrupcion
 
 float tomarMedicion(float parametro, float arreglo[]);
 
@@ -63,7 +63,7 @@ float tomarMedicion(float parametro, float arreglo[]);
 ////////////////////////////////////////////////////////////SETUP//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println(F("Initialize System"));
 
   setup_mux();
@@ -134,9 +134,8 @@ void loop(){
 // Esto se puede sacar si no es necesario guardar los valores de las muestras, el arreglo se crearía, se completa, se calcula promedio y se borra (sería mas eficaz)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 float tomarMedicion(float parametro, float arreglo[], int medicionN){
-  
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    arreglo[muestraActual] = ((analogRead(0)*vRefADC)/nivelesDigitalesADC)/parametro;
+    arreglo[muestraActual] = ((analogRead(34)*vRefADC)/nivelesDigitalesADC)/parametro;
   }
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
     Serial.print(arreglo[muestraActual]);

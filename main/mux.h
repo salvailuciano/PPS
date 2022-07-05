@@ -1,9 +1,9 @@
 
 
 // CBA ==> 3 pines de control del MUX
-#define channelA 5
-#define channelB 6
-#define channelC 7
+#define channelA 13
+#define channelB 12
+#define channelC 14
 
 void setup_mux();
 void selectChannelMux(int canal);

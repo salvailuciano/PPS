@@ -24,12 +24,12 @@ The circuit:
 
 /////////////////////////////////LCD COMUN LUCHETE (NO I2C)//////////////////////////////
 // Pin mapping for the display
-const byte LCD_RS = 9;
-const byte LCD_E = 8;
-const byte LCD_D4 = 4;
-const byte LCD_D5 = 5;   
-const byte LCD_D6 = 6;
-const byte LCD_D7 = 7;
+const byte LCD_RS = 32;
+const byte LCD_E = 33;
+const byte LCD_D4 = 27;
+const byte LCD_D5 = 4;   
+const byte LCD_D6 = 2;
+const byte LCD_D7 = 15;
 //LCD R/W pin to ground
 //10K potentiometer to VO
 LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
@@ -54,9 +54,9 @@ float analogValue[cantidadMediciones];
 const bool pullup = true;
 //Button left(12, pullup);
 //Button right(11, pullup);
-Button up(12, pullup);
-Button down(11, pullup);
-Button enter(10, pullup);
+Button up(5, pullup);
+Button down(18, pullup);
+Button enter(19, pullup);
 
 //////////////////////////////////////////////MENUES Y CONTENIDO//////////////////////////////////////////////////
 LiquidLine linea1(1, 0, "Valores 1");
