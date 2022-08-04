@@ -22,7 +22,6 @@ MEDICIONES:
 //potenciad = aux *Pdparametro;
 //potenciad = (lectura[1]*5) / 1024;// Solo para test sin el parametro
  **********************************/
-
 #include "menu.h"
 #include "promediador.h"
 #include "mux.h"
