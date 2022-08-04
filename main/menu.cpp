@@ -54,9 +54,9 @@ float analogValue[cantidadMediciones];
 const bool pullup = true;
 //Button left(12, pullup);
 //Button right(11, pullup);
-Button up(5, pullup);
-Button down(18, pullup);
-Button enter(19, pullup);
+Button up(15, pullup);
+Button down(0, pullup);
+Button enter(5, pullup);
 
 //////////////////////////////////////////////MENUES Y CONTENIDO//////////////////////////////////////////////////
 LiquidLine linea1(1, 0, "Valores 1");
@@ -182,7 +182,7 @@ lcd.begin(16, 2); //Comentar si se usa I2C
 
 ///////////////////////////////////////////////////////FUNCION PARA MOSTRAR VALORES EN PANTALLA////////////////////////////////////////////////////////////////// 
 
-void mostrarValores(float a,float b,float c,float d){
+void mostrarValores(float a,float b,float c,float d, float e,float f,float g,float h){
   
   if(medicion!=0){// si no esta en modo medicion procede a mostrar los valores
   
