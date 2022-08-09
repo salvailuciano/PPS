@@ -27,17 +27,18 @@ MEDICIONES:
 #include "mux.h"
 #include "Button.h"
 #include "definesConfiguraciones.h"
+#include <AT24Cxx.h>
 
 //Variables auxiliares para calculo de ADC//
-const float parametroPD = 0.1;
+const float parametroPD = 1;
 //const float Pdparametro = 1033.05;//(v*v/100)*pdparametro
-const float parametroPR = 0.2;
-const float parametroAGC = 0.3;
-const float parametroIsal = 0.4;
-const float parametroVsal = 0.5;
-const float parametroVexc = 0.6;
-const float parametroVaux = 0.7;
-const float parametroVlinea = 0.8;
+const float parametroPR = 1;
+const float parametroAGC = 1;
+const float parametroIsal = 1;
+const float parametroVsal = 1;
+const float parametroVexc = 1;
+const float parametroVaux = 1;
+const float parametroVlinea = 1;
 
 float valorPromedio = 0;
 float valorPromedio2 = 0;
@@ -130,8 +131,8 @@ void loop(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void tomarMedicion(float parametro, float arreglo[], float parametro2, float arreglo2[], int medicionN){
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    arreglo[muestraActual] = ((analogRead(39)*vRefADC)/nivelesDigitalesADC)/parametro;
-    arreglo2[muestraActual] = ((analogRead(36)*vRefADC)/nivelesDigitalesADC)/parametro2;
+    arreglo[muestraActual] = ((analogRead(36)*vRefADC)/nivelesDigitalesADC)/parametro;
+    arreglo2[muestraActual] = ((analogRead(39)*vRefADC)/nivelesDigitalesADC)/parametro2;
   }
 
 

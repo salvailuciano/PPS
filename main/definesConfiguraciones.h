@@ -6,8 +6,8 @@
 
 const int cantidadMediciones = 4;
 const int cantidadMuestras = 10;
-const float nivelesDigitalesADC = 1023.0;
-const float vRefADC = 5;
+const float nivelesDigitalesADC = 1;
+const float vRefADC = 3.3;
 
 #define WELCOME_MSG                         MACHINE_NAME " lista."
 #define MSG_SD_INSERTED                     "Tarjeta colocada"
