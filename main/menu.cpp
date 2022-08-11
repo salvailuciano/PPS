@@ -40,33 +40,45 @@ LiquidCrystal_I2C lcd(0x3f, 16, 2); //Descomentar si se usa I2C
 
 //const int cantidadMediciones = 4;
 
-int medicion=1 ;       //Variable que indica si esta en modo medicion o configuracion
+int flag_medicion=1 ;       //Variable que indica si esta en modo medicion o configuracion
+int flag_temperatura=0 ;       //Variable que indica si esta en modo medicion o configuracion
 int page_counter=1 ;       //To move beetwen pages
-float analogValue[cantidadMediciones];
+int cantidadPaginas=4;
 /*
  * The Button class is not a part of the LiquidMenu library. The first
  * parameter is the button's pin, the second enables or disables the
  * internal pullup resistor (not required) and the third is the debounce
  * time (not required).
  */
-//////////////////////////////////////////////DECLARACION DE BOTONES//////////////////////////////////////////////////
-// Button objects instantiation
+
+///////////////////////////DECLARACION DE BOTONES//////////////////////////////////
+// Button objects instantiatio
 const bool pullup = true;
 //Button left(12, pullup);
 //Button right(11, pullup);
-Button up(5, pullup);
-Button down(0, pullup);
-Button enter(15, pullup);
+Button up(Bot_up, pullup);
+Button down(Bot_down, pullup);
+Button enter(Bot_enter, pullup);
+
 
 //////////////////////////////////////////////MENUES Y CONTENIDO//////////////////////////////////////////////////
-LiquidLine linea1(1, 0, "Valores 1");
-LiquidLine linea4(1, 1, "Modificar Parametro");
-LiquidScreen pantalla1(linea1,linea4);
+LiquidLine linea1(1, 0, "Mediciones");
+LiquidLine linea2(1, 1, "Calibraciones");
+LiquidLine linea3(1, 2, "Control PWM");
+LiquidLine linea4(1, 3, "Temperatura");
+LiquidScreen pantalla1(linea1,linea2,linea3,linea4);
 
 LiquidLine linea1_2(1, 0);
 LiquidLine linea2_2(1, 0);
 LiquidLine linea3_2(1, 0);
-LiquidScreen pantalla2(linea1_2,linea2_2,linea3_2);
+LiquidLine linea4_2(1, 0);
+LiquidScreen pantalla2(linea1_2,linea2_2,linea3_2,linea4_2);
+/*
+LiquidLine linea1_4(1, 0);
+LiquidLine linea2_4(1, 0);
+LiquidLine linea3_4(1, 0);
+LiquidLine linea4_4(1, 0);
+LiquidScreen pantalla4(linea1_4,linea2_4,linea3_4,linea4_4);
 /*
 LiquidLine analog_line1_2(1, 0, VARIABLE1, analogValue[0]);
 LiquidLine analog_line2_2(1, 0, VARIABLE2, analogValue[1]);
@@ -75,12 +87,19 @@ LiquidLine analog_line4_2(1, 0, VARIABLE4, analogValue[3]);
 LiquidScreen pantalla2(analog_line1_2,analog_line2_2,analog_line3_2,analog_line4_2);
 */
 
-LiquidLine linea1_3(1, 0, "Opcion1");
-LiquidLine linea2_3(1, 0, "Opcion2");
-LiquidLine linea3_3(1, 0, "Atras");
-LiquidScreen pantalla3(linea1_3,linea2_3,linea3_3);
+LiquidLine linea1_3(1, 0, "Tensiones");
+LiquidLine linea2_3(1, 1, "Corrientes");
+LiquidLine linea3_3(1, 2, "Potencia");
+LiquidLine linea4_3(1, 3, "Atras");
+LiquidScreen pantalla3(linea1_3,linea2_3,linea3_3,linea4_3);
 
-LiquidMenu menu(lcd,pantalla2,pantalla1,pantalla3);
+LiquidLine linea1_4(1, 0);
+LiquidScreen pantalla4(linea1_4);
+
+//LiquidLine analog_line1_4(1, 0, "Temperatura", analogValue);
+//LiquidScreen pantalla4(analog_line1_4);
+
+LiquidMenu menu(lcd,pantalla2,pantalla1,pantalla3,pantalla4);
 //////////////////////////////////////FUNCIONES LIGADAS AL MENU//////////////////////////////////////////////////
 void setup_menu(){
   lcd.init(); //Descomentar para I2C
@@ -89,10 +108,14 @@ void setup_menu(){
 
   menu.init();
   linea1.set_focusPosition(Position::LEFT); 
+  linea2.set_focusPosition(Position::LEFT); 
+  linea3.set_focusPosition(Position::LEFT); 
   linea4.set_focusPosition(Position::LEFT); 
    
   linea1.attach_function(1,fn_mediciones); 
-  linea4.attach_function(1,fn_mas_configuraciones); 
+  linea2.attach_function(1,fn_mas_configuraciones); 
+  linea3.attach_function(1,fn_mas_configuraciones); 
+  linea4.attach_function(1,fn_temperatura); 
   menu.add_screen(pantalla1);
   /*
   analog_line1_2.set_focusPosition(Position::LEFT); 
@@ -110,26 +133,49 @@ void setup_menu(){
   linea1_2.set_focusPosition(Position::LEFT); 
   linea2_2.set_focusPosition(Position::LEFT); 
   linea3_2.set_focusPosition(Position::LEFT); 
+  linea4_2.set_focusPosition(Position::LEFT); 
   
   linea1_2.attach_function(1, fn_configuracion);
   linea2_2.attach_function(1, fn_configuracion);
   linea3_2.attach_function(1, fn_configuracion); 
+  linea4_2.attach_function(1, fn_configuracion);
   
   menu.add_screen(pantalla2);
+/*
+  linea1_4.set_focusPosition(Position::LEFT); 
+  linea2_4.set_focusPosition(Position::LEFT); 
+  linea3_4.set_focusPosition(Position::LEFT); 
+  linea4_4.set_focusPosition(Position::LEFT); 
+  
+  linea1_4.attach_function(1, fn_configuracion);
+  linea2_4.attach_function(1, fn_configuracion);
+  linea3_4.attach_function(1, fn_configuracion); 
+  linea4_4.attach_function(1, fn_configuracion);
+  */
+//  menu.add_screen(pantalla4);
    
   linea1_3.set_focusPosition(Position::LEFT); 
   linea2_3.set_focusPosition(Position::LEFT); 
   linea3_3.set_focusPosition(Position::LEFT); 
+  linea4_3.set_focusPosition(Position::LEFT);  
   
   linea1_3.attach_function(1, fn_configuracion);
   linea2_3.attach_function(1, fn_configuracion);
   linea3_3.attach_function(1, fn_configuracion); 
-   
+  linea4_3.attach_function(1, fn_configuracion); 
+  
   menu.add_screen(pantalla3);
+
+  linea1_4.set_focusPosition(Position::LEFT); 
+  linea1_4.attach_function(1, fn_configuracion);
+ //analog_line1_4.set_focusPosition(Position::LEFT); 
+ // analog_line1_4.attach_function(1, fn_configuracion);
+  menu.add_screen(pantalla4);
   
   pantalla1.set_displayLineCount(2);
   pantalla2.set_displayLineCount(2);
   pantalla3.set_displayLineCount(2);
+  pantalla4.set_displayLineCount(2);
   menu.set_focusedLine(0);
   menu.update();
 }
@@ -154,14 +200,14 @@ void setup_menu(){
     // Calls the function identified with one
     // for the focused line.
     menu.switch_focus(false);
-    if(medicion!=0){
+    if(flag_medicion!=0){
     page_counter= page_counter -1;
     }
   }
   if (down.check() == LOW) {
     Serial.println(F("DOWN button pressed"));
      menu.switch_focus(true);
-     if(medicion!=0){
+     if(flag_medicion!=0){
      page_counter= page_counter +1;
      }
   }
@@ -171,49 +217,124 @@ void setup_menu(){
    menu.call_function(1);
     
   }
-      if (page_counter>3){
+      if (page_counter>cantidadPaginas){
         page_counter=1;
       }
       if (page_counter<1){
-        page_counter=3;
+        page_counter=cantidadPaginas;
       }   
  }
 
-
+void mostrarTemperatura(float temperatura){
+   if(flag_temperatura!=0){// si no esta en modo medicion procede a mostrar los valores
+   lcd.setCursor(0,0);
+   lcd.print("Temp:");
+   lcd.setCursor(10,0);
+   lcd.print(temperatura,0); lcd.print("*C");
+   }
+  }
 ///////////////////////////////////////////////////////FUNCION PARA MOSTRAR VALORES EN PANTALLA////////////////////////////////////////////////////////////////// 
 
 void mostrarValores(float a,float b,float c,float d, float e,float f,float g,float h){
-  
-  if(medicion!=0){// si no esta en modo medicion procede a mostrar los valores
-  
+
+  if(flag_medicion!=0){// si no esta en modo medicion procede a mostrar los valores
+
   switch (page_counter){
     case 1: //Design of home page 1     
       lcd.setCursor(0,0);
-      lcd.print(VARIABLE1); lcd.print(a,0); lcd.print("A");
+      lcd.print(VARIABLE1);
+      lcd.setCursor(12,0);
+      lcd.print(a,0); lcd.print(UNIDAD1);
+      
       lcd.setCursor(0,1);
       lcd.print(VARIABLE2);
       if (b<=200){
-        lcd.print(b,0); 
-        lcd.print("W");
+        lcd.setCursor(12,1);
+        lcd.print(int(b),1); 
+        lcd.print(UNIDAD2);
       }
       else{
         lcd.print("200W"); 
       }
-      delay(100);
+      delay(10);
       break;
     case 2: //Design of page 2
       lcd.setCursor(0,0);
-      lcd.print(VARIABLE3); lcd.print(c,0); lcd.print("V");
+      lcd.print(VARIABLE3);
+      lcd.setCursor(12,0);
+      lcd.print(c,0); lcd.print(UNIDAD3);
       lcd.setCursor(0,1);
-      lcd.print(VARIABLE4); lcd.print(d,1); lcd.print("V");
-      delay(100);
+      lcd.print(VARIABLE4); 
+      lcd.setCursor(12,1);
+      lcd.print(d,1); lcd.print(UNIDAD4);
+      delay(10);
       break;
     case 3: //Design of page 3 
-      lcd.setCursor(0,0);
-      lcd.print("You are now on");
+       lcd.setCursor(0,0);
+      lcd.print(VARIABLE5);
+      lcd.setCursor(12,0);
+      lcd.print(e,0); lcd.print(UNIDAD5);
       lcd.setCursor(0,1);
-      lcd.print("Page 3");
-      delay(100);
+      lcd.print(VARIABLE6);
+      lcd.setCursor(12,1);
+      lcd.print(int(f),1); lcd.print(UNIDAD6);
+      delay(10);
+      break;
+     case 4: //Design of page 4 
+        lcd.setCursor(0,0);
+      lcd.print(VARIABLE7);
+      lcd.setCursor(12,0);
+      lcd.print(g,0); lcd.print(UNIDAD7);
+      lcd.setCursor(0,1);
+      lcd.print(VARIABLE8);
+      lcd.setCursor(12,1);
+      lcd.print(int(h),1); lcd.print(UNIDAD8);
+      delay(10);
+/*
+      case 5: //Design of page 4 
+        lcd.setCursor(0,0);
+      lcd.print("Medicion1");
+      lcd.setCursor(12,0);
+      lcd.print(g,0); lcd.print("P");
+      lcd.setCursor(0,1);
+      lcd.print("Medicion2");
+      lcd.setCursor(12,1);
+      lcd.print(int(h),1); lcd.print("P");
+      delay(10);
+          case 6: //Design of page 4 
+        lcd.setCursor(0,0);
+      lcd.print("Medicion3");
+      lcd.setCursor(12,0);
+      lcd.print(g,0); lcd.print("P");
+      lcd.setCursor(0,1);
+      lcd.print("Medicion4");
+      lcd.setCursor(12,1);
+      lcd.print(int(h),1); lcd.print("P");
+      delay(10);
+          case 7: //Design of page 4 
+        lcd.setCursor(0,0);
+      lcd.print("Medicion5");
+      lcd.setCursor(12,0);
+      lcd.print(g,0); lcd.print("P");
+      lcd.setCursor(0,1);
+      lcd.print("Medicion6");
+      lcd.setCursor(12,1);
+      lcd.print(int(h),1); lcd.print("P");
+      delay(10);
+          case 8: //Design of page 4 
+        lcd.setCursor(0,0);
+      lcd.print("Medicion7");
+      lcd.setCursor(12,0);
+      lcd.print(g,0); lcd.print("P");
+      lcd.setCursor(0,1);
+      lcd.print("Medicion8");
+      lcd.setCursor(12,1);
+      lcd.print(int(h),1); lcd.print(UNIDAD8);
+      delay(10);
+*/
+      
+      break;
+      default: 
       break;
     }
   }
@@ -230,7 +351,7 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
 /////////////////////////////
 void fn_mediciones(){
   lcd.clear(); 
-  medicion=1;
+  flag_medicion=1;
   page_counter=1; 
   menu.change_screen(1);
   menu.set_focusedLine(0);
@@ -238,7 +359,8 @@ void fn_mediciones(){
 
 /////////////////////////////
 void fn_configuracion(){
-  medicion=0;
+  flag_medicion=0;
+  flag_temperatura=0;
   lcd.clear(); 
   menu.change_screen(2);
   menu.set_focusedLine(0);
@@ -247,6 +369,12 @@ void fn_configuracion(){
 /////////////////////////////
 void fn_mas_configuraciones(){
   menu.change_screen(3);
+  menu.set_focusedLine(0);
+}
+
+void fn_temperatura(){
+  flag_temperatura=1;
+  menu.change_screen(4);
   menu.set_focusedLine(0);
 }
 

@@ -27,12 +27,13 @@ MEDICIONES:
 #include "mux.h"
 #include "Button.h"
 #include "definesConfiguraciones.h"
-#include <AT24Cxx.h>
+#include "temperatura.h"
+//#include <AT24Cxx.h>
 
 //Variables auxiliares para calculo de ADC//
 const float parametroPD = 1;
 //const float Pdparametro = 1033.05;//(v*v/100)*pdparametro
-const float parametroPR = 1;
+const float parametroPR = 0.1;
 const float parametroAGC = 1;
 const float parametroIsal = 1;
 const float parametroVsal = 1;
@@ -54,6 +55,7 @@ void setup(){
 
   setup_mux();
   setup_menu();
+  setup_temperatura();
   //setup_promediador();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,6 +92,9 @@ void loop(){
   tomarMedicion(parametroVaux, tensionAux, parametroVlinea, tensionLinea, 0);
   float tensionAuxProm = valorPromedio;
   float tensionLineaProm = valorPromedio2;
+  float temperatura=lecturaTemperatura();
+  
+  mostrarTemperatura(temperatura);
   
   //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
   mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu //Por ahi hay q hacer el tema de la escala, o enviarlo a la sheet escala (lineal o cuadratica)
@@ -131,8 +136,8 @@ void loop(){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void tomarMedicion(float parametro, float arreglo[], float parametro2, float arreglo2[], int medicionN){
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    arreglo[muestraActual] = ((analogRead(36)*vRefADC)/nivelesDigitalesADC)/parametro;
-    arreglo2[muestraActual] = ((analogRead(39)*vRefADC)/nivelesDigitalesADC)/parametro2;
+    arreglo[muestraActual] = ((analogRead(muxin_A)*vRefADC)/nivelesDigitalesADC)/parametro;
+    arreglo2[muestraActual] = ((analogRead(muxin_B)*vRefADC)/nivelesDigitalesADC)/parametro2;
   }
 
 

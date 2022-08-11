@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "mux.h"
+#include "definesConfiguraciones.h"
 
 /////////////////////////////////////////////////////SETUP///////////////////////////////////////////////////
 //Inicializacion del multiplexor
@@ -21,28 +22,28 @@ void selectChannelMux(int canal){
             digitalWrite(channelB, 0);//         0 0 0
             //digitalWrite(channelC, 0);
             Serial.println("##-MUX CANAL 0-##");
-            delay(100);
+            delay(10);
             break; 
     case 1:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 0);//         0 0 1
             //digitalWrite(channelC, 0);
             Serial.println("##-MUX CANAL 1-##");
-            delay(100);
+            delay(10);
             break;
     case 2:
             digitalWrite(channelA, 0);//         C B A
             digitalWrite(channelB, 1);//         0 1 0
             //digitalWrite(channelC, 0);
             Serial.println("##-MUX CANAL 2-##");
-            delay(100);
+            delay(10);
             break;
     case 3:
             digitalWrite(channelA, 1);//         C B A
             digitalWrite(channelB, 1);//         0 1 1
             //digitalWrite(channelC, 0);
             Serial.println("##-MUX CANAL 3-##");
-            delay(100);
+            delay(10);
             break;
 /*  case 4:
             digitalWrite(channelA, 0);//         C B A

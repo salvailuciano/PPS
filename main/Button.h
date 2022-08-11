@@ -2,7 +2,7 @@
 
 class Button {
 public:
-	Button (uint8_t pin, bool pullup = false, uint16_t debounceDelay = 10)
+	Button (uint8_t pin, bool pullup = false, uint16_t debounceDelay = 1)
 		: _pin(pin), _state(LOW), _lastState(LOW),
 		  _lastMillis(0), _debounceDelay(debounceDelay),
 		  _lastDebounceTime(0) {
