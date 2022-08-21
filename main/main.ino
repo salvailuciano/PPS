@@ -22,6 +22,7 @@ MEDICIONES:
 //potenciad = aux *Pdparametro;
 //potenciad = (lectura[1]*5) / 1024;// Solo para test sin el parametro
  **********************************/
+#include "adc.h"
 #include "menu.h"
 #include "promediador.h"
 #include "mux.h"
@@ -29,17 +30,6 @@ MEDICIONES:
 #include "definesConfiguraciones.h"
 #include "temperatura.h"
 //#include <AT24Cxx.h>
-
-//Variables auxiliares para calculo de ADC//
-const float parametroPD = 1;
-//const float Pdparametro = 1033.05;//(v*v/100)*pdparametro
-const float parametroPR = 0.1;
-const float parametroAGC = 1;
-const float parametroIsal = 1;
-const float parametroVsal = 1;
-const float parametroVexc = 1;
-const float parametroVaux = 1;
-const float parametroVlinea = 1;
 
 float valorPromedio = 0;
 float valorPromedio2 = 0;
@@ -53,9 +43,11 @@ void setup(){
   Serial.begin(115200);
   Serial.println(F("Initialize System"));
 
+  setup_adc();
   setup_mux();
   setup_menu();
   setup_temperatura();
+  
   //setup_promediador();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
