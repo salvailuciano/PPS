@@ -15,12 +15,22 @@ MEDICIONES:
 7.  V aux: fuente interna (12 v)
 8.  V línea: (220 v)
 
-//Tema de potencia, calculo distinto, no recuerdo por que esto//
-//potenciad = ((lectura[1]*vRefADC)/nivelesDigitalesADC)/Pdparametro; // ver este que es distinto
-//aux = (lectura[1] * 5.0) / 1024.0;
-//aux = (aux*aux)/100;
-//potenciad = aux *Pdparametro;
-//potenciad = (lectura[1]*5) / 1024;// Solo para test sin el parametro
+//Calculos del adc//
+//Caso escala lineal:
+//Valor en pantalla = (adcpromedio/calAdc)*valor
+//Donde adcpromedio es el medido 
+//Cal Adc es el valor de adc del sensor a fondo de escala
+//Valor es el valor que se quiere mostrar en pantalla
+//
+//Caso escala cuadratica:
+//Valor en pantalla = (adcpromedio/calAdc)^2*valor
+//Donde adcpromedio es el medido 
+//Cal Adc es el valor de adc del sensor a fondo de escala
+//Valor es el valor que se quiere mostrar en pantalla
+//
+//Formula propuesta:
+//arreglo[muestraActual] = ((analogRead(muxin_A)*calAdc)*valor;
+//calAdc= (vSensoresADC*nivelesDigitalesADC)/vRefADC
  **********************************/
 #include "adc.h"
 #include "menu.h"
@@ -28,27 +38,52 @@ MEDICIONES:
 #include "mux.h"
 #include "Button.h"
 #include "definesConfiguraciones.h"
+#include "eeprom.h"
 #include "temperatura.h"
 //#include <AT24Cxx.h>
-
+const int lineal=0; //si la funcion Tomar medicion recibe un 0 el cálculo será lineal
+const int cuadratica=1; //si la funcion Tomar medicion recibe un 1 el cálculo será cuadrático
+const float nivelesDigitalesADC = pow(2, bitsResolucion)-1;//1024-1 valores //pow es 2^bits de resolucion
+float calAdc=(vSensoresADC*nivelesDigitalesADC)/vRefADC;
 float valorPromedio = 0;
 float valorPromedio2 = 0;
+void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN);
 
-void tomarMedicion(float parametro, float arreglo[], float parametro2, float arreglo2[], int medicionN);
+//////////////////////// VALORESS DE MEDICION A MOSTRAR EN PANTALLA /////////////////////////////////
+//Cargar una sola vez los valores estos,luego comentarlos
+ 
+float valorPD= 500;
+float valorPR= 200;
+float valorAGC= 20;
+float valorIsal= 8.8;
+float valorVsal= 48;
+float valorVexc= 28;
+float valorVaux= 12;
+float valorVlinea= 220; 
 
+//Descomentar luego de hacer el primer funcionamiento de la EEPROM
+/*
+float valorPD=0;
+float valorPR=0;
+float valorAGC=0;
+float valorIsal=0;
+float valorVsal=0;
+float valorVexc=0;
+float valorVaux=0;
+float valorVlinea=0; 
+*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////SETUP//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
   Serial.begin(115200);
-  Serial.println(F("Initialize System"));
-
+  Serial.println(F("inicializando sistema"));
   setup_adc();
   setup_mux();
   setup_menu();
   setup_temperatura();
-  
-  //setup_promediador();
+  writeEEPROM(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);//una sola vez hacer esta rutina luego comentarla
+  //readEeprom(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////LOOP//////////////////////////////////////////////////////////////////
@@ -66,27 +101,28 @@ void loop(){
   
 //////////////////////LECTURA DE ENTRADA////////////////////////////
 ///////////////////////////////////////////////////////////////////
-// Funcion "tomarMedicion(float parametro, float arreglo[])": Se le envia el parametro de cada medicion para el calculo del ADC y el arreglo para cargarlo con 10 muestras, retorna promedio de las 10 muestras
+// Funcion "tomarMedicion(float valor, float arreglo[])": Se le envia el valor de cada medicion para el calculo del ADC y el arreglo para cargarlo con 10 muestras, retorna promedio de las 10 muestras
 /////////////////////////////////////////////////////////////////////
   Serial.print("##MEDICIONES 1 y 2: ");
-  tomarMedicion(parametroPD, potenciaTransferida, parametroPR, potenciaReflejada, 1);
+  tomarMedicion(valorPD, potenciaTransferida, valorPR, potenciaReflejada, 1, cuadratica, cuadratica);
   float potenciaTransferidaProm = valorPromedio;
   float potenciaReflejadaProm = valorPromedio2;
   Serial.print("##MEDICIONES 3 y 4: ");
-  tomarMedicion(parametroAGC, AGC, parametroIsal, corrienteSalida, 2);
+  tomarMedicion(valorAGC, AGC, valorIsal, corrienteSalida, 2, lineal, lineal);
   float AGCProm = valorPromedio;
   float corrienteSalidaProm = valorPromedio2;
   Serial.print("##MEDICIONES 5 y 6: ");
-  tomarMedicion(parametroVsal, tensionSalida, parametroVexc, tensionExc, 3);
+  tomarMedicion(valorVsal, tensionSalida, valorVexc, tensionExc, 3, lineal, lineal);
   float tensionSalidaProm = valorPromedio;
   float tensionExcProm = valorPromedio2;
   Serial.print("##MEDICIONES 7 y 8: ");
-  tomarMedicion(parametroVaux, tensionAux, parametroVlinea, tensionLinea, 0);
+  tomarMedicion(valorVaux, tensionAux, valorVlinea, tensionLinea, 0, lineal, lineal);
   float tensionAuxProm = valorPromedio;
   float tensionLineaProm = valorPromedio2;
   float temperatura=lecturaTemperatura();
   
   mostrarTemperatura(temperatura);
+  mostrarCalibraciones(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);
   
   //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
   mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu //Por ahi hay q hacer el tema de la escala, o enviarlo a la sheet escala (lineal o cuadratica)
@@ -123,15 +159,35 @@ void loop(){
 // 3) Luego hace una iteracion mas para imprimir en el serial los arreglos
 // 4) Luego llama a la funcion para leerBotones
 // 5) Y por ultimo llama a la funcion calcularProm, donde le envia el arreglo de 10 muestras, y retorna en el main el promedio
+// 6) Incluye el tipo de medicion para determinar el cálculo dependiendo si es lineal o cuadrática.
+// 7) En esta misma funcion se pueden medir dos tipos de medicion diferentes sin que afecten una a la otra
 // IMPORTANTE => LA FUNCION NO RETORNA EL ARREGLO, PERO AL ENVIARLE CADA ARREGLO POR SEPARADO LOS COMPLETA IGUAL, POR LO TANTO ACTUALIZA LOS ARREGLOS EN EL MAIN
 // Esto se puede sacar si no es necesario guardar los valores de las muestras, el arreglo se crearía, se completa, se calcula promedio y se borra (sería mas eficaz)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void tomarMedicion(float parametro, float arreglo[], float parametro2, float arreglo2[], int medicionN){
-  for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    arreglo[muestraActual] = ((analogRead(muxin_A)*vRefADC)/nivelesDigitalesADC)/parametro;
-    arreglo2[muestraActual] = ((analogRead(muxin_B)*vRefADC)/nivelesDigitalesADC)/parametro2;
-  }
+void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,int tipodeMedicion1,int tipodeMedicion2){
 
+  for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
+
+  if (tipodeMedicion1==0){
+
+    arreglo[muestraActual] = (analogRead(muxin_A)/calAdc)*valor; // El arreglo toma el valor de la primera medicion en escala lineal
+    }
+    else{
+    arreglo[muestraActual] = sq((analogRead(muxin_A)/calAdc))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
+      }
+  
+  if (tipodeMedicion2==0){
+     arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
+    }
+    else{
+    
+   arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
+      }
+  
+    //Forma anterior de muestreo
+    //arreglo[muestraActual] = ((analogRead(muxin_A)*vRefADC)/nivelesDigitalesADC)*valor;
+    //arreglo2[muestraActual] = ((analogRead(muxin_B)*vRefADC)/nivelesDigitalesADC)*valor2;
+  }
 
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
 

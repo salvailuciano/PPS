@@ -8,7 +8,6 @@
 #define VARIABLE6                         "Vexc: "
 #define VARIABLE7                         "Vaux: "
 #define VARIABLE8                         "V linea: "
-#define POTENCIA500W
 #define NUMERO EQUIPO                     "M500W"
 
 //////////////////////////DEFINIR UNIDADES DE VARIABLES//////////////////////////////////
@@ -21,30 +20,13 @@
 #define UNIDAD7                         "V"
 #define UNIDAD8                         "V"
 ///////////////////////// CONFIGURACION MEDICIONES Y ADC////////////////////////////////
-const int bitsResolucion = 12;
-const int cantidadMediciones = 8;
+const int bitsResolucion = 10;//1024 valores
+const int cantidadMediciones = 8;//
 const int cantidadMuestras = 16;
-const float nivelesDigitalesADC = 4095;
-const float vRefADC = 3.3;
-
-
-//////////////////////// PARAMETROS DE MEDICION /////////////////////////////////
-
-//const float Pdparametro = 1033.05;//(v*v/100)*pdparametro
-#define parametroPD 1
-#define parametroPR 1
-#define parametroAGC 1
-#define parametroIsal 1
-#define parametroVsal 1
-#define parametroVexc 1
-#define parametroVaux 1
-#define parametroVlinea 1 
+const float vRefADC = 2.2;// si se usa la atenuacion de 6.6db es decir el valor maximo de 4095 se dara a 2.2v
+const float vSensoresADC = 2; //tension de los sensores en la medicion buscada establecida en 2v a fullscale
 
 ///////////////////////////DECLARACION DE PINES//////////////////////////////////
-
-/////////////////////////DECLARACION DE ADC REF////////////////////////////
-
-#define Bot_enter  15
 
 /////////////////////////DECLARACION DE PINES BOTONES////////////////////////////
 //#define Bot_left   12
@@ -59,4 +41,5 @@ const float vRefADC = 3.3;
 
 #define muxin_A 36
 #define muxin_B 39
-///////////////////////////////////////////////////////////////////////////////
+////////////////DECLARACION DE PINES SENSOR TEMPERATURA/////////////////////////
+#define DHTPIN 23    // Pin donde está conectado el sensor

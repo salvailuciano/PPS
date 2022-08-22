@@ -1,0 +1,2 @@
+void readEeprom(float readParamvalorPD,float readParamvalorPR,float readParamvalorAGC,float readParamvalorIsal,float readParamvalorVsal,float readParamvalorVexc,float readParamvalorVaux,float readParamvalorVlinea);
+void writeEEPROM(float writeVariable1,float writeVariable2,float writeVariable3, float writeVariable4, float writeVariable5, float writeVariable6, float writeVariable7,float writeVariable8);

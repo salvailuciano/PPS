@@ -1,11 +1,11 @@
 #include <Arduino.h>
 #include "menu.h"
 #include "Button.h"
+#include "eeprom.h"
 #include "definesConfiguraciones.h"
 #include <LiquidCrystal_I2C.h> //Descomentar para I2C
 #include <LiquidCrystal.h> // Funcion para coneccion de LCD por piner de Datos
 #include <LiquidMenu.h>
-
 /*
 The circuit:
  * LCD RS pin to digital pin 12
@@ -35,21 +35,14 @@ The circuit:
 //LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 ///////////////////////////////////////////////////////////////////////////////
 
-
 LiquidCrystal_I2C lcd(0x3f, 16, 2); //Descomentar si se usa I2C
-
-//const int cantidadMediciones = 4;
 
 int flag_medicion=1 ;       //Variable que indica si esta en modo medicion o configuracion
 int flag_temperatura=0 ;       //Variable que indica si esta en modo medicion o configuracion
+int flag_config_cal=0;
 int page_counter=1 ;       //To move beetwen pages
 int cantidadPaginas=4;
-/*
- * The Button class is not a part of the LiquidMenu library. The first
- * parameter is the button's pin, the second enables or disables the
- * internal pullup resistor (not required) and the third is the debounce
- * time (not required).
- */
+int contador_ajuste=0;
 
 ///////////////////////////DECLARACION DE BOTONES//////////////////////////////////
 // Button objects instantiatio
@@ -60,8 +53,8 @@ Button up(Bot_up, pullup);
 Button down(Bot_down, pullup);
 Button enter(Bot_enter, pullup);
 
-
 //////////////////////////////////////////////MENUES Y CONTENIDO//////////////////////////////////////////////////
+//Se inicializa y se desarrolla lo que mostrara cada linea del display
 LiquidLine linea1(1, 0, "Mediciones");
 LiquidLine linea2(1, 1, "Calibraciones");
 LiquidLine linea3(1, 2, "Control PWM");
@@ -74,30 +67,18 @@ LiquidLine linea3_2(1, 0);
 LiquidLine linea4_2(1, 0);
 LiquidScreen pantalla2(linea1_2,linea2_2,linea3_2,linea4_2);
 /*
-LiquidLine linea1_4(1, 0);
-LiquidLine linea2_4(1, 0);
-LiquidLine linea3_4(1, 0);
-LiquidLine linea4_4(1, 0);
-LiquidScreen pantalla4(linea1_4,linea2_4,linea3_4,linea4_4);
-/*
 LiquidLine analog_line1_2(1, 0, VARIABLE1, analogValue[0]);
 LiquidLine analog_line2_2(1, 0, VARIABLE2, analogValue[1]);
 LiquidLine analog_line3_2(1, 0, VARIABLE3, analogValue[2]);
 LiquidLine analog_line4_2(1, 0, VARIABLE4, analogValue[3]);
 LiquidScreen pantalla2(analog_line1_2,analog_line2_2,analog_line3_2,analog_line4_2);
 */
-
-LiquidLine linea1_3(1, 0, "Tensiones");
-LiquidLine linea2_3(1, 1, "Corrientes");
-LiquidLine linea3_3(1, 2, "Potencia");
-LiquidLine linea4_3(1, 3, "Atras");
-LiquidScreen pantalla3(linea1_3,linea2_3,linea3_3,linea4_3);
+LiquidLine linea1_3(0, 0," ");
+LiquidLine linea2_3(1, 1);
+LiquidScreen pantalla3(linea1_3,linea2_3);
 
 LiquidLine linea1_4(1, 0);
 LiquidScreen pantalla4(linea1_4);
-
-//LiquidLine analog_line1_4(1, 0, "Temperatura", analogValue);
-//LiquidScreen pantalla4(analog_line1_4);
 
 LiquidMenu menu(lcd,pantalla2,pantalla1,pantalla3,pantalla4);
 //////////////////////////////////////FUNCIONES LIGADAS AL MENU//////////////////////////////////////////////////
@@ -105,30 +86,19 @@ void setup_menu(){
   lcd.init(); //Descomentar para I2C
 //lcd.begin(16, 2); //Comentar si se usa I2C
   lcd.backlight(); // Descomentar para I2C
-
+//Primero se inicializa en que posicion estara el cursor RIGHT o LEFT
   menu.init();
   linea1.set_focusPosition(Position::LEFT); 
   linea2.set_focusPosition(Position::LEFT); 
   linea3.set_focusPosition(Position::LEFT); 
   linea4.set_focusPosition(Position::LEFT); 
-   
+//Se indexan las funciones que se ejecutaran en cada linea   
   linea1.attach_function(1,fn_mediciones); 
-  linea2.attach_function(1,fn_mas_configuraciones); 
-  linea3.attach_function(1,fn_mas_configuraciones); 
+  linea2.attach_function(1,fn_configuraciones_calibraciones); 
+  linea3.attach_function(1,fn_configuraciones_calibraciones); 
   linea4.attach_function(1,fn_temperatura); 
+//Se añade esta pantalla
   menu.add_screen(pantalla1);
-  /*
-  analog_line1_2.set_focusPosition(Position::LEFT); 
-  analog_line2_2.set_focusPosition(Position::LEFT); 
-  analog_line3_2.set_focusPosition(Position::LEFT); 
-  analog_line4_2.set_focusPosition(Position::LEFT); 
-  
-  analog_line1_2.attach_function(1, fn_configuracion);
-  analog_line2_2.attach_function(1, fn_configuracion);
-  analog_line3_2.attach_function(1, fn_configuracion); 
-  analog_line4_2.attach_function(1, fn_configuracion); 
-  menu.add_screen(pantalla2);
-  /*/
 
   linea1_2.set_focusPosition(Position::LEFT); 
   linea2_2.set_focusPosition(Position::LEFT); 
@@ -139,49 +109,26 @@ void setup_menu(){
   linea2_2.attach_function(1, fn_configuracion);
   linea3_2.attach_function(1, fn_configuracion); 
   linea4_2.attach_function(1, fn_configuracion);
-  
   menu.add_screen(pantalla2);
-/*
-  linea1_4.set_focusPosition(Position::LEFT); 
-  linea2_4.set_focusPosition(Position::LEFT); 
-  linea3_4.set_focusPosition(Position::LEFT); 
-  linea4_4.set_focusPosition(Position::LEFT); 
-  
-  linea1_4.attach_function(1, fn_configuracion);
-  linea2_4.attach_function(1, fn_configuracion);
-  linea3_4.attach_function(1, fn_configuracion); 
-  linea4_4.attach_function(1, fn_configuracion);
-  */
-//  menu.add_screen(pantalla4);
-   
-  linea1_3.set_focusPosition(Position::LEFT); 
+
+  linea1_3.set_focusPosition(Position::LEFT);
   linea2_3.set_focusPosition(Position::LEFT); 
-  linea3_3.set_focusPosition(Position::LEFT); 
-  linea4_3.set_focusPosition(Position::LEFT);  
   
-  linea1_3.attach_function(1, fn_configuracion);
   linea2_3.attach_function(1, fn_configuracion);
-  linea3_3.attach_function(1, fn_configuracion); 
-  linea4_3.attach_function(1, fn_configuracion); 
-  
   menu.add_screen(pantalla3);
 
   linea1_4.set_focusPosition(Position::LEFT); 
   linea1_4.attach_function(1, fn_configuracion);
- //analog_line1_4.set_focusPosition(Position::LEFT); 
- // analog_line1_4.attach_function(1, fn_configuracion);
   menu.add_screen(pantalla4);
-  
+//Se establece cuantas lineas tendra el display en pantalla
   pantalla1.set_displayLineCount(2);
   pantalla2.set_displayLineCount(2);
   pantalla3.set_displayLineCount(2);
   pantalla4.set_displayLineCount(2);
+  
   menu.set_focusedLine(0);
   menu.update();
 }
-
-
-
 ///////////////////////////////////////////////////////FUNCION BOTONES//////////////////////////////////////////////////////////////////  
  void leerBotones(){
 
@@ -200,6 +147,7 @@ void setup_menu(){
     // Calls the function identified with one
     // for the focused line.
     menu.switch_focus(false);
+    //Si el flag de medicion es distinto a cero aumenta el page counter para movilizar el cursor
     if(flag_medicion!=0){
     page_counter= page_counter -1;
     }
@@ -225,6 +173,7 @@ void setup_menu(){
       }   
  }
 
+//////////////////////////////////////FUNCION PARA MOSTRAR LA TEMPERATURA EN PANTALLA////////////////////////////////////////////////////////////////
 void mostrarTemperatura(float temperatura){
    if(flag_temperatura!=0){// si no esta en modo medicion procede a mostrar los valores
    lcd.setCursor(0,0);
@@ -233,6 +182,173 @@ void mostrarTemperatura(float temperatura){
    lcd.print(temperatura,0); lcd.print("*C");
    }
   }
+
+
+//////////////////////////////////////FUNCION PARA CALIBRAR LOS VALORES MOSTRADOS EN PANTALLA////////////////////////////////////////////////////////////////
+//Esta funcion es de simple calibracion para las mediciones que se quieren ver en pantalla
+//Los pasos a seguir son:
+//1)En cada caso se mostrara la medicion
+//2)Se ajustara el valor de la medicion con botup y botdown
+//3)Con el enter se pasará a ajustar la siguiente medición
+//4)Luego de pasar por todas las mediciones, se guardara la cablibracion en la EEPROM
+
+void mostrarCalibraciones(float variable1,float variable2,float variable3,float variable4,float variable5,float variable6,float variable7,float variable8){
+   if(flag_config_cal!=0){// si no esta en modo medicion procede a mostrar los valores
+  switch (contador_ajuste){
+    case 0: //Ajuste medicion1 
+      
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE1);
+      lcd.setCursor(12,0);
+      lcd.print(variable1,0); lcd.print(UNIDAD1);//MUESTRA VALOR A CALIBRAR Y SU UNIDAD
+      lcd.setCursor(1,1);
+      lcd.print("Atras");//MUESTRA BOTON ATRAS POR SI NO SE QUIERE CALIBRAR ESA MEDICION
+      if (up.check() == LOW) {
+      variable1++;
+      }
+       if (down.check() == LOW) {
+      variable1--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+      
+      case 1: //Ajuste medicion1 
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE2);
+      lcd.setCursor(12,0);
+      lcd.print(variable2,0); lcd.print(UNIDAD2);
+      lcd.setCursor(1,1);
+      lcd.print("Atras");
+      if (up.check() == LOW) {
+      variable2++;
+      }
+       if (down.check() == LOW) {
+      variable2--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+
+      case 2: //Ajuste medicion1 
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE3);
+      lcd.setCursor(12,0);
+      lcd.print(variable3,0); lcd.print(UNIDAD3);
+      lcd.setCursor(1,1);
+      lcd.print("Atras");
+      if (up.check() == LOW) {
+      variable3++;
+      }
+       if (down.check() == LOW) {
+      variable3--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+      
+      case 3: //Ajuste medicion1 
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE4);
+      lcd.setCursor(12,0);
+      lcd.print(variable4,0); lcd.print(UNIDAD4);
+      lcd.setCursor(1,1);
+      lcd.print("Atras");
+      if (up.check() == LOW) {
+      variable4++;
+      }
+       if (down.check() == LOW) {
+      variable4--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+      break;
+      case 4: //Ajuste medicion1 
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE5);
+      lcd.setCursor(12,0);
+      lcd.print(variable5,0); lcd.print(UNIDAD5);
+      lcd.setCursor(1,1);
+      lcd.print("Atras");
+      if (up.check() == LOW) {
+      variable5++;
+      }
+       if (down.check() == LOW) {
+      variable5--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+      case 5: //Ajuste medicion1 
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE6);
+      lcd.setCursor(12,0);
+      lcd.print(variable6,0); lcd.print(UNIDAD6);
+      lcd.setCursor(1,1);
+      lcd.print("Atras");
+      if (up.check() == LOW) {
+      variable6++;
+      }
+       if (down.check() == LOW) {
+      variable6--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+      case 6: //Ajuste medicion1 
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE7);
+      lcd.setCursor(12,0);
+      lcd.print(variable7,0); lcd.print(UNIDAD7);
+      lcd.setCursor(1,1);
+      lcd.print("Atras");
+      if (up.check() == LOW) {
+      variable7++;
+      }
+       if (down.check() == LOW) {
+      variable7--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+
+      case 7: //Ajuste medicion1 
+      lcd.setCursor(0,0);
+      lcd.print(VARIABLE8);
+      lcd.setCursor(12,0);
+      lcd.print(variable8,0); lcd.print(UNIDAD8);
+      lcd.setCursor(1,1);
+      lcd.print("Atras");
+      if (up.check() == LOW) {
+      variable8++;
+      }
+       if (down.check() == LOW) {
+      variable8--;
+      }
+        if (enter.check() == LOW) {
+      contador_ajuste++;
+      }
+      delay(10);
+      break;
+   }
+  }
+  writeEEPROM(variable1,variable2,variable3,variable4,variable5,variable6,variable7,variable8);//guardar los nuevos valores en la EEPROM
+ } 
 ///////////////////////////////////////////////////////FUNCION PARA MOSTRAR VALORES EN PANTALLA////////////////////////////////////////////////////////////////// 
 
 void mostrarValores(float a,float b,float c,float d, float e,float f,float g,float h){
@@ -340,7 +456,7 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
   }
 }
 
-///////////////////////////////////////////////////////FUNCIONES//////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////FUNCIONES DEL MENU//////////////////////////////////////////////////////////////////////
 /*void selectOption(){
   if(enter.check() == LOW){
     lcd.clear(); 
@@ -348,7 +464,7 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
    // delay(500);
   }
 }*/
-/////////////////////////////
+///////////////////////////////////////FUNCION PARA MOSTRAR LAS MEDICIONES EN PANTALLA//////////////////////////////////////////////////////
 void fn_mediciones(){
   lcd.clear(); 
   flag_medicion=1;
@@ -357,26 +473,31 @@ void fn_mediciones(){
   menu.set_focusedLine(0);
 }
 
-/////////////////////////////
+///////////////////////////////////////////////FUNCION PARA MOSTRAR LAS CONFIGURACIONES/////////////////////////////////////////////////////
 void fn_configuracion(){
   flag_medicion=0;
   flag_temperatura=0;
+  flag_config_cal=0;
   lcd.clear(); 
   menu.change_screen(2);
   menu.set_focusedLine(0);
   
 }
-/////////////////////////////
-void fn_mas_configuraciones(){
-  menu.change_screen(3);
-  menu.set_focusedLine(0);
-}
-
+//////////////////////////////////////////////FUNCION PARA MOSTRAR LA TEMPERATURA MEDIDA////////////////////////////////////////////////////
 void fn_temperatura(){
   flag_temperatura=1;
   menu.change_screen(4);
   menu.set_focusedLine(0);
 }
+/////////////////////////////FUNCION PARA CALIBRAR LAS MEDICIONES MOSTRADAS EN PANTALLA////////////////////////////////////////////////////
+void fn_configuraciones_calibraciones(){
+   flag_config_cal=1;
+  menu.change_screen(3);
+  menu.set_focusedLine(0);
+  }
+
+
+
 
 
  

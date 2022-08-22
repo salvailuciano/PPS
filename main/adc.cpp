@@ -3,25 +3,14 @@
 #include "definesConfiguraciones.h"
 
 void setup_adc(){
-  
+  //Primero se configuran los bits de resolucion deseados
   analogReadResolution(bitsResolucion); //se puede setear de 9 a 12 bits
-//  analogSetCycles(8);// steea numero de ciclos por muestra por rango que va de 1 a 255 default 8
-
+  //Luego se setea la atenuacion para todos los canales. Por defecto es 11db
+  analogSetAttenuation(ADC_6db); //ADC_0db, ADC_2_5db, ADC_6db, ADC_11db
+  //Se puede setear la atenuacion para un solo canal con la siguiente funcion:
+  //analogSetPinAttenuation(pin, ADC_11db); //ADC_0db, ADC_2_5db, ADC_6db, ADC_11db
   /*
-  * Setea la atenuacion para todos los canales
-  * Por defecto es 11db
-  * */
-  analogSetAttenuation(ADC_11db); //ADC_0db, ADC_2_5db, ADC_6db, ADC_11db
-
-  /*
-  * Setea la atenuacion para todos los canales
-  * Por defecto es 11db
-  * 
-  *analogSetPinAttenuation(pin, ADC_11db); //ADC_0db, ADC_2_5db, ADC_6db, ADC_11db
-  */
- 
-  /*
-   * Cuando VDD_A es 3.3V:
+   * Cuando VDD es 3.3V:
    *
    * - 0dB attenuaton (ADC_ATTEN_DB_0) da full escala de voltaje a 1.1V
    * - 2.5dB attenuation (ADC_ATTEN_DB_2_5) da full escala de voltaje a 1.5V
