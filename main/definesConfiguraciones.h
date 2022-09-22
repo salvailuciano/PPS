@@ -43,3 +43,6 @@ const float vSensoresADC = 2; //tension de los sensores en la medicion buscada e
 #define muxin_B 39
 ////////////////DECLARACION DE PINES SENSOR TEMPERATURA/////////////////////////
 #define DHTPIN 23    // Pin donde está conectado el sensor
+
+
+#define DEBUG_VALORES

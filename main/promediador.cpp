@@ -1,5 +1,6 @@
+#include <Arduino.h>
 #include "definesConfiguraciones.h"
-
+#include "promediador.h"
 //Falta agregar un arreglo de valorPromedio[2 o 3], el valorPromedio actual y el anterior, para calcular el nuevo promedio
 /*void setup_promediador(){
   float valorPromedio;

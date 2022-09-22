@@ -12,3 +12,7 @@ void fn_configuracion();
 void fn_mas_configuraciones();
 void fn_temperatura();
 void fn_configuraciones_calibraciones();
+
+
+void setup_numerosgrandes();
+void printNumerosgrandes(int numero)

@@ -47,7 +47,7 @@ const float nivelesDigitalesADC = pow(2, bitsResolucion)-1;//1024-1 valores //po
 float calAdc=(vSensoresADC*nivelesDigitalesADC)/vRefADC;
 float valorPromedio = 0;
 float valorPromedio2 = 0;
-void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN);
+void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,int tipodeMedicion1,int tipodeMedicion2);
 
 //////////////////////// VALORESS DE MEDICION A MOSTRAR EN PANTALLA /////////////////////////////////
 //Cargar una sola vez los valores estos,luego comentarlos
@@ -103,19 +103,19 @@ void loop(){
 ///////////////////////////////////////////////////////////////////
 // Funcion "tomarMedicion(float valor, float arreglo[])": Se le envia el valor de cada medicion para el calculo del ADC y el arreglo para cargarlo con 10 muestras, retorna promedio de las 10 muestras
 /////////////////////////////////////////////////////////////////////
-  Serial.print("##MEDICIONES 1 y 2: ");
+  //Serial.print("##MEDICIONES 1 y 2: ");
   tomarMedicion(valorPD, potenciaTransferida, valorPR, potenciaReflejada, 1, cuadratica, cuadratica);
   float potenciaTransferidaProm = valorPromedio;
   float potenciaReflejadaProm = valorPromedio2;
-  Serial.print("##MEDICIONES 3 y 4: ");
+  //Serial.print("##MEDICIONES 3 y 4: ");
   tomarMedicion(valorAGC, AGC, valorIsal, corrienteSalida, 2, lineal, lineal);
   float AGCProm = valorPromedio;
   float corrienteSalidaProm = valorPromedio2;
-  Serial.print("##MEDICIONES 5 y 6: ");
+  //Serial.print("##MEDICIONES 5 y 6: ");
   tomarMedicion(valorVsal, tensionSalida, valorVexc, tensionExc, 3, lineal, lineal);
   float tensionSalidaProm = valorPromedio;
   float tensionExcProm = valorPromedio2;
-  Serial.print("##MEDICIONES 7 y 8: ");
+  //Serial.print("##MEDICIONES 7 y 8: ");
   tomarMedicion(valorVaux, tensionAux, valorVlinea, tensionLinea, 0, lineal, lineal);
   float tensionAuxProm = valorPromedio;
   float tensionLineaProm = valorPromedio2;
@@ -127,6 +127,7 @@ void loop(){
   //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
   mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu //Por ahi hay q hacer el tema de la escala, o enviarlo a la sheet escala (lineal o cuadratica)
   
+  #ifdef DEBUG_VALORES
   Serial.println("Verificacion fuera de la funcion del arreglo");//Verifica que se actualiza el arreglo en el main
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
     Serial.print(potenciaTransferida[muestraActual]);
@@ -149,6 +150,7 @@ void loop(){
   Serial.println(tensionAuxProm);
   Serial.print("8) Vlinea promedio: ");
   Serial.println(tensionLineaProm);
+  #endif
 }
 ////////////////////////////////////////////////////////////TERMINA EL LOOP/////////////////////////////////////////////////////////////////
 
@@ -190,7 +192,8 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
   }
 
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
-
+  
+  #ifdef DEBUG_VALORES
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
     Serial.print(arreglo[muestraActual]);
     Serial.print(" ");
@@ -201,6 +204,8 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
     Serial.print(" ");
   }
   Serial.println();
+  #endif
+  
   leerBotones();
   valorPromedio = calcularProm(arreglo);
   valorPromedio2 = calcularProm(arreglo2);
