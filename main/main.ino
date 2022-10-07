@@ -32,46 +32,8 @@ MEDICIONES:
 //arreglo[muestraActual] = ((analogRead(muxin_A)*calAdc)*valor;
 //calAdc= (vSensoresADC*nivelesDigitalesADC)/vRefADC
  **********************************/
-#include "adc.h"
-#include "menu.h"
-#include "promediador.h"
-#include "mux.h"
-#include "Button.h"
-#include "definesConfiguraciones.h"
-#include "eeprom.h"
-#include "temperatura.h"
-//#include <AT24Cxx.h>
-const int lineal=0; //si la funcion Tomar medicion recibe un 0 el cálculo será lineal
-const int cuadratica=1; //si la funcion Tomar medicion recibe un 1 el cálculo será cuadrático
-const float nivelesDigitalesADC = pow(2, bitsResolucion)-1;//1024-1 valores //pow es 2^bits de resolucion
-float calAdc=(vSensoresADC*nivelesDigitalesADC)/vRefADC;
-float valorPromedio = 0;
-float valorPromedio2 = 0;
-void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,int tipodeMedicion1,int tipodeMedicion2);
+#include "main.h"
 
-//////////////////////// VALORESS DE MEDICION A MOSTRAR EN PANTALLA /////////////////////////////////
-//Cargar una sola vez los valores estos,luego comentarlos
- 
-float valorPD= 500;
-float valorPR= 200;
-float valorAGC= 20;
-float valorIsal= 8.8;
-float valorVsal= 48;
-float valorVexc= 28;
-float valorVaux= 12;
-float valorVlinea= 220; 
-
-//Descomentar luego de hacer el primer funcionamiento de la EEPROM
-/*
-float valorPD=0;
-float valorPR=0;
-float valorAGC=0;
-float valorIsal=0;
-float valorVsal=0;
-float valorVexc=0;
-float valorVaux=0;
-float valorVlinea=0; 
-*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////SETUP//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,8 +44,8 @@ void setup(){
   setup_mux();
   setup_menu();
   setup_temperatura();
-  writeEEPROM(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);//una sola vez hacer esta rutina luego comentarla
-  //readEeprom(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);
+ // writeEEPROM(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);//una sola vez hacer esta rutina luego comentarla
+  readEeprom();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////LOOP//////////////////////////////////////////////////////////////////
@@ -115,18 +77,18 @@ void loop(){
   tomarMedicion(valorVsal, tensionSalida, valorVexc, tensionExc, 3, lineal, lineal);
   float tensionSalidaProm = valorPromedio;
   float tensionExcProm = valorPromedio2;
-  //Serial.print("##MEDICIONES 7 y 8: ");
+  //erial.print("##MEDICIONES 7 y 8: ");
   tomarMedicion(valorVaux, tensionAux, valorVlinea, tensionLinea, 0, lineal, lineal);
   float tensionAuxProm = valorPromedio;
   float tensionLineaProm = valorPromedio2;
   float temperatura=lecturaTemperatura();
   
   mostrarTemperatura(temperatura);
-  mostrarCalibraciones(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);
+  mostrarCalibraciones();
   
   //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
   mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu //Por ahi hay q hacer el tema de la escala, o enviarlo a la sheet escala (lineal o cuadratica)
-  
+ 
   #ifdef DEBUG_VALORES
   Serial.println("Verificacion fuera de la funcion del arreglo");//Verifica que se actualiza el arreglo en el main
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
@@ -151,7 +113,9 @@ void loop(){
   Serial.print("8) Vlinea promedio: ");
   Serial.println(tensionLineaProm);
   #endif
+  
 }
+
 ////////////////////////////////////////////////////////////TERMINA EL LOOP/////////////////////////////////////////////////////////////////
 
 //////////////////////FUNCION tomarMedicion////////////////////////////
@@ -192,8 +156,8 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
   }
 
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
-  
-  #ifdef DEBUG_VALORES
+
+#ifdef DEBUG_VALORES
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
     Serial.print(arreglo[muestraActual]);
     Serial.print(" ");
@@ -204,8 +168,7 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
     Serial.print(" ");
   }
   Serial.println();
-  #endif
-  
+ #endif
   leerBotones();
   valorPromedio = calcularProm(arreglo);
   valorPromedio2 = calcularProm(arreglo2);

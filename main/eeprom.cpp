@@ -1,19 +1,21 @@
 #include <Preferences.h> //https://github.com/espressif/arduino-esp32/tree/master/libraries/Preferences
+#include "eeprom.h"
 #include "definesConfiguraciones.h"
 
 Preferences preferences;
 
 
-void readEeprom(float readParamvalorPD,float readParamvalorPR,float readParamvalorAGC,float readParamvalorIsal,float readParamvalorVsal,float readParamvalorVexc,float readParamvalorVaux,float readParamvalorVlinea) {  
+
+void readEeprom() {  
   preferences.begin("myproyect", false);
-   readParamvalorPD = preferences.getFloat("var1", 0); //
-   readParamvalorPR = preferences.getFloat("var2", 0); //
-   readParamvalorAGC = preferences.getFloat("var3", 0); //
-   readParamvalorIsal = preferences.getFloat("var4", 0); //
-   readParamvalorVsal = preferences.getFloat("var5", 0); //
-   readParamvalorVexc = preferences.getFloat("var6", 0); //
-   readParamvalorVaux = preferences.getFloat("var7", 0); //
-   readParamvalorVlinea = preferences.getFloat("var8", 0); //
+  valorPD = preferences.getFloat("var1", 0); //
+  valorPR = preferences.getFloat("var2", 0); //
+  valorAGC = preferences.getFloat("var3", 0); //
+  valorIsal = preferences.getFloat("var4", 0); //
+  valorVsal = preferences.getFloat("var5", 0); //
+  valorVexc = preferences.getFloat("var6", 0); //
+  valorVaux = preferences.getFloat("var7", 0); //
+  valorVlinea = preferences.getFloat("var8", 0); //
   preferences.end();
 }
 

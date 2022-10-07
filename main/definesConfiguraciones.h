@@ -1,4 +1,5 @@
 #include <Arduino.h>
+
 //////////////////////////DEFINIR NOMBRE DE VARIABLES//////////////////////////////////
 #define VARIABLE1                         "P Directa: "
 #define VARIABLE2                         "P Refejada: "
@@ -19,12 +20,21 @@
 #define UNIDAD6                         "V"
 #define UNIDAD7                         "V"
 #define UNIDAD8                         "V"
+
 ///////////////////////// CONFIGURACION MEDICIONES Y ADC////////////////////////////////
-const int bitsResolucion = 10;//1024 valores
+//1024 valores
+const int bitsResolucion=10;
 const int cantidadMediciones = 8;//
 const int cantidadMuestras = 16;
 const float vRefADC = 2.2;// si se usa la atenuacion de 6.6db es decir el valor maximo de 4095 se dara a 2.2v
 const float vSensoresADC = 2; //tension de los sensores en la medicion buscada establecida en 2v a fullscale
+
+
+
+//////////////////////////////////// FUSES /////////////////////////////////////////////
+//#define DEBUG_VALORES // Se debugean valores por serial si se utiliza esta funcion
+
+///////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////DECLARACION DE PINES//////////////////////////////////
 
@@ -43,6 +53,3 @@ const float vSensoresADC = 2; //tension de los sensores en la medicion buscada e
 #define muxin_B 39
 ////////////////DECLARACION DE PINES SENSOR TEMPERATURA/////////////////////////
 #define DHTPIN 23    // Pin donde está conectado el sensor
-
-
-#define DEBUG_VALORES

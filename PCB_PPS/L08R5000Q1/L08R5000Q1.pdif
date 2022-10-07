@@ -1,0 +1,213 @@
+;Proteus Design Interchange Format
+
+(PDIF
+  (vendor "Labcenter Electronics")
+  (version 1 0)
+  (library
+    (part "L08R5000Q1"
+      (family "DIO")
+      (package "LEDRD254W57D500H1070")
+      (description "LED,_Orange,_Through_Hole,_T-1_3/4_(5mm),_30_mA,_2.1_V,_635_nm_")
+      (attribute "PKG_TYPE" "LEDRD254W57D500H1070")
+      (attribute "MAXIMUM_PACKAGE_HEIGHT" "10.7mm")
+      (attribute "STANDARD" "IPC-7351B")
+      (attribute "MANUFACTURER" "LED_TECHNOLOGY")
+      (attribute "PARTREV" "NA")
+      (gate
+        (swap 1)
+        (symbol "L08R5000Q1")
+        (pin "A" A (type PS))
+        (pin "C" C (type PS))
+      )
+    )
+    (symbol "L08R5000Q1"
+      (units THOU)
+      (graphic
+        (stroke 10.0)
+        (path (pt -100.0 60.0) (pt -100.0 0.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -100.0 0.0) (pt -100.0 -60.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -100.0 -60.0) (pt 0.0 0.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 0.0 0.0) (pt -100.0 60.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 0.0 60.0) (pt 0.0 0.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 0.0 0.0) (pt 0.0 -60.0))
+      )
+      (graphic
+        (stroke 6.0)
+        (path (pt -100.0 0.0) (pt -200.0 0.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 40.0 160.0) (pt -30.0 80.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 27.0 122.0) (pt 5.0 141.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 5.0 141.0) (pt 40.0 160.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 40.0 160.0) (pt 27.0 122.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 27.0 122.0) (pt 28.0 151.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 28.0 151.0) (pt 23.0 151.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt 12.0 138.0) (pt 21.0 144.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -9.0 164.0) (pt -79.0 84.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -22.0 126.0) (pt -44.0 145.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -44.0 145.0) (pt -9.0 164.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -9.0 164.0) (pt -22.0 126.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -22.0 126.0) (pt -21.0 155.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -21.0 155.0) (pt -26.0 155.0))
+      )
+      (graphic
+        (stroke 10.0)
+        (path (pt -37.0 142.0) (pt -28.0 148.0))
+      )
+      (graphic
+        (stroke 6.0)
+        (path (pt 100.0 0.0) (pt 0.0 0.0))
+      )
+      (terminal
+        (body (symbol "PIN_R0_U_L100") (pt -300.0 0.0) (rot 0) (mir 0) (visible true))
+        (name (pt 139.37 0.0) (rot 0) (just MIDDLE LEFT) (visible false))
+        (number (pt -39.37 0.0) (rot 0) (just MIDDLE LEFT) (visible true))
+      )
+      (terminal
+        (body (symbol "PIN_R180_U_L100") (pt 200.0 0.0) (rot 0) (mir 0) (visible true))
+        (name (pt -139.37 0.0) (rot 0) (just MIDDLE RIGHT) (visible false))
+        (number (pt -39.37 0.0) (rot 0) (just MIDDLE RIGHT) (visible true))
+      )
+    )
+    (symbol "PIN_R0_U_L100"
+      (units THOU)
+      (graphic
+        (stroke 6.5)
+        (path (pt 0.0 0.0) (pt 100.0 0.0))
+      )
+    )
+    (symbol "PIN_R180_U_L100"
+      (units THOU)
+      (graphic
+        (stroke 6.5)
+        (path (pt 0.0 0.0) (pt -100.0 0.0))
+      )
+    )
+    (package "LEDRD254W57D500H1070"
+      (units THOU)
+      (layer TSLK
+        (graphic
+          (stroke 7.87)
+          (circle (pt -129.92 0) (pt -122.05 0))
+        )
+        (graphic
+          (stroke 5.0)
+          (path (pt -98.43 61.65) (pt -98.43 -61.65))
+        )
+        (graphic
+          (stroke 5.0)
+          (path
+            (arc (pt -98.43 61.65) (pt -116.1 -116.35) (pt 116.59 116.35) (start -296) (sweep 148))
+            (pt -98.43 -61.65)
+          )
+        )
+      )
+      (layer TASM
+        (graphic
+          (stroke 7.87)
+          (circle (pt -129.92 0) (pt -122.05 0))
+        )
+        (graphic
+          (stroke 5.0)
+          (path (pt -98.43 61.65) (pt -98.43 -61.65))
+        )
+        (graphic
+          (stroke 5.0)
+          (path
+            (arc (pt -98.43 61.65) (pt -116.1 -116.35) (pt 116.59 116.35) (start -296) (sweep 148))
+            (pt -98.43 -61.65)
+          )
+        )
+      )
+      (layer OCCA
+        (graphic
+          (stroke 1.97)
+          (path (pt -108.27 64.57) (pt -108.27 -64.57))
+        )
+        (graphic
+          (stroke 1.97)
+          (path
+            (arc (pt -108.27 64.57) (pt -126.02 -126.28) (pt 126.54 126.28) (start -298) (sweep 149))
+            (pt -108.27 -64.57)
+          )
+        )
+      )
+      (leg A (pt 50 0) (padstack 1))
+      (leg C (pt -50 0) (padstack 2))
+      (padstack 1
+        (hole 47)
+        (plated true)
+        (pad (layer TCOP) (round 71.46))
+        (pad (layer INNER) (round 71.46))
+        (pad (layer BCOP) (round 71.46))
+        (pad (layer TRES) (round 35.73))
+        (pad (layer BRES) (round 35.73))
+      )
+      (padstack 2
+        (hole 47)
+        (plated true)
+        (pad (layer TCOP) (square 71.46))
+        (pad (layer INNER) (square 71.46))
+        (pad (layer BCOP) (square 71.46))
+        (pad (layer TRES) (square 71.46))
+        (pad (layer BRES) (square 71.46))
+      )
+      (model L08R5000Q1.step
+        (euler 0 0 0)
+        (offset 0 0 0)
+      )
+    )
+  )
+)

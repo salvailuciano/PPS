@@ -1,10 +1,11 @@
   //////////////////////// Conversor analogico bits ////////////////////////////////////
 #include <Arduino.h>
-#include "definesConfiguraciones.h"
+#include "adc.h"
+
 
 void setup_adc(){
   //Primero se configuran los bits de resolucion deseados
-  analogReadResolution(bitsResolucion); //se puede setear de 9 a 12 bits
+  analogReadResolution(10); //se puede setear de 9 a 12 bits
   //Luego se setea la atenuacion para todos los canales. Por defecto es 11db
   analogSetAttenuation(ADC_6db); //ADC_0db, ADC_2_5db, ADC_6db, ADC_11db
   //Se puede setear la atenuacion para un solo canal con la siguiente funcion:
