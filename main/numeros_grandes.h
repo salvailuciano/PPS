@@ -1,4 +1,5 @@
-
+#include <LiquidCrystal_I2C.h> //Descomentar para I2C
+#include <LiquidMenu.h>
 // the 8 arrays that form each segment of the custom numbers
 byte bar1[8] = 
 {

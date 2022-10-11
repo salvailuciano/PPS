@@ -44,13 +44,15 @@ void setup(){
   setup_mux();
   setup_menu();
   setup_temperatura();
- // writeEEPROM(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);//una sola vez hacer esta rutina luego comentarla
-  readEeprom();
+  //writeEEPROM(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);//una sola vez hacer esta rutina luego comentarla
+  readEeprom();// Lee los valores almacenados en la eeprom
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////LOOP//////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop(){
+  
+ 
 //Se declaran todos los arreglos de cada medicion de 10 muestras cada 1 y se inicializan en 0 ( {} = cargarlo en 0 )
   float potenciaTransferida[cantidadMuestras] {};
   float potenciaReflejada[cantidadMuestras] {};
@@ -85,6 +87,7 @@ void loop(){
   
   mostrarTemperatura(temperatura);
   mostrarCalibraciones();
+  mostrarcalibracionSerial();
   
   //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
   mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu //Por ahi hay q hacer el tema de la escala, o enviarlo a la sheet escala (lineal o cuadratica)
@@ -135,21 +138,18 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
 
   if (tipodeMedicion1==0){
-
     arreglo[muestraActual] = (analogRead(muxin_A)/calAdc)*valor; // El arreglo toma el valor de la primera medicion en escala lineal
     }
     else{
     arreglo[muestraActual] = sq((analogRead(muxin_A)/calAdc))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
-      }
+     }
   
   if (tipodeMedicion2==0){
-     arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
+    arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
     }
     else{
-    
-   arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
-      }
-  
+    arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
+     }
     //Forma anterior de muestreo
     //arreglo[muestraActual] = ((analogRead(muxin_A)*vRefADC)/nivelesDigitalesADC)*valor;
     //arreglo2[muestraActual] = ((analogRead(muxin_B)*vRefADC)/nivelesDigitalesADC)*valor2;
