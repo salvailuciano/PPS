@@ -9,6 +9,7 @@ extern float valorVsal;
 extern float valorVexc;
 extern float valorVaux;
 extern float valorVlinea; 
+extern float bitsResolucion; 
 
 extern String VARIABLE1;
 extern String VARIABLE2;
@@ -18,3 +19,12 @@ extern String VARIABLE5;
 extern String VARIABLE6;
 extern String VARIABLE7;
 extern String VARIABLE8;
+
+extern String UNIDAD1;
+extern String UNIDAD2;
+extern String UNIDAD3;
+extern String UNIDAD4;
+extern String UNIDAD5;
+extern String UNIDAD6;
+extern String UNIDAD7;
+extern String UNIDAD8;

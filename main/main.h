@@ -11,11 +11,14 @@
 //#include <AT24Cxx.h>
 const int lineal=0; //si la funcion Tomar medicion recibe un 0 el cálculo será lineal
 const int cuadratica=1; //si la funcion Tomar medicion recibe un 1 el cálculo será cuadrático
+float bitsResolucion=12;//1024 valores
 const float nivelesDigitalesADC = pow(2, bitsResolucion)-1;//1024-1 valores //pow es 2^bits de resolucion
 float calAdc=(vSensoresADC*nivelesDigitalesADC)/vRefADC;
 float valorPromedio = 0;
 float valorPromedio2 = 0;
-void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN);
+bool flagValores=false;
+bool flagADC=false;
+short muxMuestras=0;
 
 //////////////////////// VALORESS DE MEDICION A MOSTRAR EN PANTALLA /////////////////////////////////
 float valorPD= 500;
@@ -45,4 +48,6 @@ String UNIDAD5="V";
 String UNIDAD6="V";
 String UNIDAD7="V";
 String UNIDAD8="V";
+
+void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN);
  

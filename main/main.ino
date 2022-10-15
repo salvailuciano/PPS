@@ -44,7 +44,6 @@ void setup(){
   setup_mux();
   setup_menu();
   setup_temperatura();
-  //writeEEPROM(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);//una sola vez hacer esta rutina luego comentarla
   readEeprom();// Lee los valores almacenados en la eeprom
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,25 +97,29 @@ void loop(){
     Serial.print(potenciaTransferida[muestraActual]);
     Serial.print(" ");
   }
-  Serial.println();
-  Serial.print("1) PD promedio: ");
-  Serial.println(potenciaTransferidaProm);
-  Serial.print("2) PR promedio: ");
-  Serial.println(potenciaReflejadaProm);
-  Serial.print("3) AGC promedio: ");
-  Serial.println(AGCProm);
-  Serial.print("4) Isal promedio: ");
-  Serial.println(corrienteSalidaProm);
-  Serial.print("5) Vsal promedio: ");
-  Serial.println(tensionSalidaProm);
-  Serial.print("6) Vexc promedio: ");
-  Serial.println(tensionExcProm);
-  Serial.print("7) Vaux promedio: ");
-  Serial.println(tensionAuxProm);
-  Serial.print("8) Vlinea promedio: ");
-  Serial.println(tensionLineaProm);
   #endif
   
+  if(flagValores==true){
+    Serial.println();
+    Serial.print("1) PD promedio: ");
+    Serial.println(potenciaTransferidaProm);
+    Serial.print("2) PR promedio: ");
+    Serial.println(potenciaReflejadaProm);
+    Serial.print("3) AGC promedio: ");
+    Serial.println(AGCProm);
+    Serial.print("4) Isal promedio: ");
+    Serial.println(corrienteSalidaProm);
+    Serial.print("5) Vsal promedio: ");
+    Serial.println(tensionSalidaProm);
+    Serial.print("6) Vexc promedio: ");
+    Serial.println(tensionExcProm);
+    Serial.print("7) Vaux promedio: ");
+    Serial.println(tensionAuxProm);
+    Serial.print("8) Vlinea promedio: ");
+    Serial.println(tensionLineaProm);
+    flagADC=false;
+    flagValores=false;
+  }
 }
 
 ////////////////////////////////////////////////////////////TERMINA EL LOOP/////////////////////////////////////////////////////////////////
@@ -134,7 +137,7 @@ void loop(){
 // Esto se puede sacar si no es necesario guardar los valores de las muestras, el arreglo se crearía, se completa, se calcula promedio y se borra (sería mas eficaz)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,int tipodeMedicion1,int tipodeMedicion2){
-
+  
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
 
   if (tipodeMedicion1==0){
@@ -156,7 +159,27 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
   }
 
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
-
+ 
+  if(flagADC==true){
+    Serial.println();
+    muxMuestras++;
+    Serial.print(muxMuestras);
+    Serial.print(") Valor ADC");
+    Serial.print(muxMuestras);
+    Serial.print(" : ");
+    Serial.print(analogRead(muxin_A));
+  
+    Serial.println();
+    muxMuestras++;
+    Serial.print(muxMuestras);
+    Serial.print(") Valor ADC");
+    Serial.print(muxMuestras);
+    Serial.print(" : ");
+    Serial.print(analogRead(muxin_B));
+ 
+    if (muxMuestras>7) muxMuestras=0;
+  }
+  
 #ifdef DEBUG_VALORES
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
     Serial.print(arreglo[muestraActual]);
@@ -169,6 +192,7 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
   }
   Serial.println();
  #endif
+ 
   leerBotones();
   valorPromedio = calcularProm(arreglo);
   valorPromedio2 = calcularProm(arreglo2);

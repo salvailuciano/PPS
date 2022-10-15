@@ -36,4 +36,3 @@ extern float valorVsal;
 extern float valorVexc;
 extern float valorVaux;
 extern float valorVlinea; 
-extern int flag_config_cal_serial;

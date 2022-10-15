@@ -39,12 +39,12 @@ The circuit:
 
 LiquidCrystal_I2C lcd(0x3f, 16, 2); //Descomentar si se usa I2C
 
-int flag_medicion=1 ;       //Variable que indica si esta en modo medicion o configuracion
-int flag_temperatura=0 ;       //Variable que indica si esta en modo medicion o configuracion
-int flag_config_cal=0;
-int flag_config_cal_serial=0;
-int page_counter=1 ;       //To move beetwen pages
-int cantidadPaginas=4;
+bool flag_medicion=1 ;       //Variable que indica si esta en modo medicion o configuracion
+bool flag_temperatura=0 ;       //Variable que indica si esta en modo medicion o configuracion
+bool flag_config_cal=0;
+bool flag_config_cal_serial=0;
+short page_counter=1 ;       //To move beetwen pages
+short cantidadPaginas=4;
 int contador_ajuste=0;
 
 ///////////////////////////DECLARACION DE BOTONES//////////////////////////////////
@@ -134,8 +134,6 @@ void setup_menu(){
   }
   */
 
-  
-  
   if (up.check() == LOW) {
    // Serial.println(F("UP button pressed"));
     // Calls the function identified with one
@@ -204,6 +202,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE1);
       lcd.setCursor(12,0);
       lcd.print(valorPD,0);
+      if (valorPD < 100) lcd.print(" ");
+      if (valorPD < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD1);
       lcd.setCursor(1,1);
@@ -221,6 +221,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE2);
       lcd.setCursor(12,0);
       lcd.print(valorPR,0);
+      if (valorPR < 100) lcd.print(" ");
+      if (valorPR < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD2);
       lcd.setCursor(1,1);
@@ -238,6 +240,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE3);
       lcd.setCursor(12,0);
       lcd.print(valorAGC,0);
+      if (valorAGC < 100) lcd.print(" ");
+      if (valorAGC < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD3);
       lcd.setCursor(1,1);
@@ -255,6 +259,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE4);
       lcd.setCursor(12,0);
       lcd.print(valorIsal,1);
+      if (valorIsal < 100) lcd.print(" ");
+      if (valorIsal < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD4);
       lcd.setCursor(1,1);
@@ -272,6 +278,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE5);
       lcd.setCursor(12,0);
       lcd.print(valorVsal,0);
+      if (valorVsal < 100) lcd.print(" ");
+      if (valorVsal < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD5);
       lcd.setCursor(1,1);
@@ -289,6 +297,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE6);
       lcd.setCursor(12,0);
       lcd.print(valorVexc,0);
+      if (valorVexc < 100) lcd.print(" ");
+      if (valorVexc < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD6); 
       lcd.setCursor(1,1);
@@ -306,6 +316,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE7);
       lcd.setCursor(12,0);
       lcd.print(valorVaux,0);
+      if (valorVaux < 100) lcd.print(" ");
+      if (valorVaux < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD7);
       lcd.setCursor(1,1);
@@ -323,6 +335,8 @@ void mostrarCalibraciones(){
       lcd.print(VARIABLE8);
       lcd.setCursor(12,0);
       lcd.print(valorVlinea,0);
+      if (valorVlinea < 100) lcd.print(" ");
+      if (valorVlinea < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD8);
       lcd.setCursor(1,1);
@@ -358,21 +372,20 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
 
       lcd.setCursor(12,0);
       lcd.print(a,0); 
+      if (a < 100) lcd.print(" ");
+      if (a < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD1);
       
       lcd.setCursor(0,1);
       lcd.print(VARIABLE2);
-      if (b<=500){
-        lcd.setCursor(12,1);
-        lcd.print(int(b),1); 
-        lcd.setCursor(15,1);
-        lcd.print(UNIDAD2);
-      }
-      else{
-        lcd.setCursor(12,1);
-        lcd.print("500W"); 
-      }
+      lcd.setCursor(12,1);
+      lcd.print(int(b),1); 
+      if (b < 100) lcd.print(" ");
+      if (b < 10) lcd.print(" ");
+      lcd.setCursor(15,1);
+      lcd.print(UNIDAD2);
+
       delay(100);
       
       break;
@@ -381,6 +394,8 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       lcd.print(VARIABLE3);
       lcd.setCursor(12,0);
       lcd.print(c,0); 
+      if (c < 100) lcd.print(" ");
+      if (c < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD3);
       
@@ -388,6 +403,8 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       lcd.print(VARIABLE4); 
       lcd.setCursor(12,1);
       lcd.print(d,1);
+      if (d < 100) lcd.print(" ");
+      if (d < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD4);
       
@@ -398,6 +415,8 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       lcd.print(VARIABLE5);
       lcd.setCursor(12,0);
       lcd.print(e,0);
+      if (e < 100) lcd.print(" ");
+      if (e < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD5);
       
@@ -405,6 +424,8 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       lcd.print(VARIABLE6);
       lcd.setCursor(12,1);
       lcd.print(int(f),1);
+      if (f < 100) lcd.print(" ");
+      if (f < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD6);
       delay(100);
@@ -414,6 +435,8 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       lcd.print(VARIABLE7);
       lcd.setCursor(12,0);
       lcd.print(g,0);
+      if (g < 100) lcd.print(" ");
+      if (g < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD7);
       
@@ -421,6 +444,8 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       lcd.print(VARIABLE8);
       lcd.setCursor(12,1);
       lcd.print(int(h),1);
+      if (h < 100) lcd.print(" ");
+      if (h < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD8);
       delay(100); 

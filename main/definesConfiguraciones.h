@@ -21,7 +21,6 @@ extern String UNIDAD7;
 extern String UNIDAD8;
 
 ///////////////////////// CONFIGURACION MEDICIONES Y ADC///////////////////////////////
-const int bitsResolucion=10;//1024 valores
 const int cantidadMediciones = 8;//
 const int cantidadMuestras = 16;
 const float vRefADC = 2.2;// si se usa la atenuacion de 6.6db es decir el valor maximo de 4095 se dara a 2.2v
