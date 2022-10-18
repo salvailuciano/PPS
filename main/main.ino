@@ -84,6 +84,7 @@ void loop(){
   mostrarTemperatura(temperatura);
   mostrarCalibraciones();
   mostrarcalibracionSerial();
+  mostrarnombreVariables();
   
   //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
   if (interruptCounter > 0) {

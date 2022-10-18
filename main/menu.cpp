@@ -324,7 +324,7 @@ void mostrarCalibraciones(){
  } 
 ///////////////////////////////////////////////////////FUNCION PARA MOSTRAR VALORES EN PANTALLA////////////////////////////////////////////////////////////////// 
 
-void mostrarValores(float a,float b,float c,float d, float e,float f,float g,float h){
+void mostrarnombreVariables(){
 
   if(flag_medicion!=0){// si no esta en modo medicion procede a mostrar los valores
 
@@ -332,79 +332,103 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
     case 1: //Design of home page 1     
       lcd.setCursor(0,0);
       lcd.print(VARIABLE1);
-
-      lcd.setCursor(12,0);
-      lcd.print(a,0); 
-      if (a < 100) lcd.print(" ");
-      if (a < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD1);
       
       lcd.setCursor(0,1);
       lcd.print(VARIABLE2);
-      lcd.setCursor(12,1);
-      lcd.print(int(b),1); 
-      if (b < 100) lcd.print(" ");
-      if (b < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD2);
       break;
     case 2: //Design of page 2
       lcd.setCursor(0,0);
       lcd.print(VARIABLE3);
-      lcd.setCursor(12,0);
-      lcd.print(c,0); 
-      if (c < 100) lcd.print(" ");
-      if (c < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD3);
       
       lcd.setCursor(0,1);
       lcd.print(VARIABLE4); 
-      lcd.setCursor(12,1);
-      lcd.print(d,1);
-      if (d < 100) lcd.print(" ");
-      if (d < 10) lcd.print(" ");
-      lcd.setCursor(15,1);
+      lcd.setCursor(15,0);
       lcd.print(UNIDAD4);
       break;
     case 3: //Design of page 3 
        lcd.setCursor(0,0);
       lcd.print(VARIABLE5);
-      lcd.setCursor(12,0);
-      lcd.print(e,0);
-      if (e < 100) lcd.print(" ");
-      if (e < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD5);
       
       lcd.setCursor(0,1);
       lcd.print(VARIABLE6);
-      lcd.setCursor(12,1);
-      lcd.print(int(f),1);
-      if (f < 100) lcd.print(" ");
-      if (f < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD6);
       break;
      case 4: //Design of page 4 
       lcd.setCursor(0,0);
       lcd.print(VARIABLE7);
-      lcd.setCursor(12,0);
-      lcd.print(g,0);
-      if (g < 100) lcd.print(" ");
-      if (g < 10) lcd.print(" ");
       lcd.setCursor(15,0);
       lcd.print(UNIDAD7);
       
       lcd.setCursor(0,1);
       lcd.print(VARIABLE8);
+      lcd.setCursor(15,1);
+      lcd.print(UNIDAD8); 
+      break;
+      
+      default: 
+      break;
+    }
+  }
+}
+
+void mostrarValores(float a,float b,float c,float d, float e,float f,float g,float h){
+
+  if(flag_medicion!=0){// si no esta en modo medicion procede a mostrar los valores
+
+  switch (page_counter){
+    case 1: //Design of home page 1     
+
+      lcd.setCursor(12,0);
+      lcd.print(a,0); 
+      if (a < 100) lcd.print(" ");
+      if (a < 10) lcd.print(" ");
+      
+      lcd.setCursor(12,1);
+      lcd.print(int(b),1); 
+      if (b < 100) lcd.print(" ");
+      if (b < 10) lcd.print(" ");
+      break;
+    case 2: //Design of page 2
+      lcd.setCursor(12,0);
+      lcd.print(c,0); 
+      if (c < 100) lcd.print(" ");
+      if (c < 10) lcd.print(" ");
+      
+      lcd.setCursor(12,1);
+      lcd.print(d,1);
+      if (d < 100) lcd.print(" ");
+      if (d < 10) lcd.print(" ");
+      break;
+    case 3: //Design of page 3 
+      lcd.setCursor(12,0);
+      lcd.print(e,0);
+      if (e < 100) lcd.print(" ");
+      if (e < 10) lcd.print(" ");
+      
+      lcd.setCursor(12,1);
+      lcd.print(int(f),1);
+      if (f < 100) lcd.print(" ");
+      if (f < 10) lcd.print(" ");
+      break;
+     case 4: //Design of page 4 
+      lcd.setCursor(12,0);
+      lcd.print(g,0);
+      if (g < 100) lcd.print(" ");
+      if (g < 10) lcd.print(" ");
+      
       lcd.setCursor(12,1);
       lcd.print(int(h),1);
       if (h < 100) lcd.print(" ");
       if (h < 10) lcd.print(" ");
-      lcd.setCursor(15,1);
-      lcd.print(UNIDAD8); 
       break;
       
       default: 

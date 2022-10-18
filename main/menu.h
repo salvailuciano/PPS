@@ -1,6 +1,7 @@
 void leerBotones();
 void setup_menu();
 void leerPagina(int pagina);
+void mostrarnombreVariables();
 void mostrarValores(float a,float b,float c,float d, float e,float f,float g,float h);
 void mostrarTemperatura(float temperatura);
 void mostrarCalibraciones();

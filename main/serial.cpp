@@ -302,12 +302,11 @@ void waitForUserInput(){
                 userInput = true;
                 return;
             }
-        
         }
-           if (digitalRead(5) == LOW){
+        if (digitalRead(5) == LOW){// si aprieto boton arriba cancela y sale
             userInput = true;
             return;
-            }
+        }
     }
 }
 

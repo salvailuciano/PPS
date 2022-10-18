@@ -1,5 +1,5 @@
 extern volatile int interruptCounter;
-float tiempoInterrupcionsegundos= 0.5;//interrrupcion cada 500ms
+float tiempoInterrupcionsegundos= 1;//interrrupcion cada 500ms
 hw_timer_t * timer = NULL;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
