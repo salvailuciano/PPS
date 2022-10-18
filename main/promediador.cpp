@@ -1,9 +1,5 @@
 #include "definesConfiguraciones.h"
 
-//Falta agregar un arreglo de valorPromedio[2 o 3], el valorPromedio actual y el anterior, para calcular el nuevo promedio
-/*void setup_promediador(){
-  float valorPromedio;
-}*/
 float calcularProm(float arreglo[]){
   float valorPromedio;
   float acumProm=0;

@@ -15,28 +15,26 @@ MEDICIONES:
 7.  V aux: fuente interna (12 v)
 8.  V línea: (220 v)
 
-//Calculos del adc//
-//Caso escala lineal:
-//Valor en pantalla = (adcpromedio/calAdc)*valor
-//Donde adcpromedio es el medido 
-//Cal Adc es el valor de adc del sensor a fondo de escala
-//Valor es el valor que se quiere mostrar en pantalla
+//////////////////////////Calculos del adc///////////////////////////
+//  Caso escala lineal:
+//  Valor en pantalla = (adcpromedio/calAdc)*valor
+//  Donde adcpromedio es el medido 
+//  Cal Adc es el valor de adc del sensor a fondo de escala
+//  Valor es el valor que se quiere mostrar en pantalla
 //
-//Caso escala cuadratica:
-//Valor en pantalla = (adcpromedio/calAdc)^2*valor
-//Donde adcpromedio es el medido 
-//Cal Adc es el valor de adc del sensor a fondo de escala
-//Valor es el valor que se quiere mostrar en pantalla
+//  Caso escala cuadratica:
+//  Valor en pantalla = (adcpromedio/calAdc)^2*valor
+//  Donde adcpromedio es el medido 
+//  Cal Adc es el valor de adc del sensor a fondo de escala
+//  Valor es el valor que se quiere mostrar en pantalla
 //
-//Formula propuesta:
-//arreglo[muestraActual] = ((analogRead(muxin_A)*calAdc)*valor;
-//calAdc= (vSensoresADC*nivelesDigitalesADC)/vRefADC
- **********************************/
+//  Formula propuesta:
+//  arreglo[muestraActual] = ((analogRead(muxin_A)*calAdc)*valor;
+//  calAdc= (vSensoresADC*nivelesDigitalesADC)/vRefADC
+ *******************************************************************/
 #include "main.h"
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////SETUP//////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup(){
   Serial.begin(115200);
   Serial.println(F("inicializando sistema"));
@@ -44,11 +42,10 @@ void setup(){
   setup_mux();
   setup_menu();
   setup_temperatura();
+  setup_interrupcion();
   readEeprom();// Lee los valores almacenados en la eeprom
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////LOOP//////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop(){
   
  
@@ -89,8 +86,16 @@ void loop(){
   mostrarcalibracionSerial();
   
   //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
-  mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu //Por ahi hay q hacer el tema de la escala, o enviarlo a la sheet escala (lineal o cuadratica)
+  if (interruptCounter > 0) {
  
+    portENTER_CRITICAL(&timerMux);
+    interruptCounter--;
+    portEXIT_CRITICAL(&timerMux);
+ 
+  mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+  Serial.println("Midiendo");
+  }
+  
   #ifdef DEBUG_VALORES
   Serial.println("Verificacion fuera de la funcion del arreglo");//Verifica que se actualiza el arreglo en el main
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
@@ -196,5 +201,5 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
   leerBotones();
   valorPromedio = calcularProm(arreglo);
   valorPromedio2 = calcularProm(arreglo2);
-  delay(20);
+ 
 }

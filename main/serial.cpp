@@ -1,23 +1,13 @@
 #include "definesConfiguraciones.h"
-#include <stdlib.h>
 #include "eeprom.h"
 
 void waitForUserInput();
 void resetInput();
 String  command;
 bool userInput = false;
-extern float valorPD;
-extern float valorPR;
-extern float valorAGC;
-extern float valorIsal;
-extern float valorVsal;
-extern float valorVexc;
-extern float valorVaux;
-extern float valorVlinea;
 extern float bitsResolucion; 
 extern bool flagValores;
 extern bool  flagADC;
-
 
 int calibracionesGenerales(){
    Serial.println();
@@ -38,6 +28,7 @@ int calibracionesGenerales(){
         //command.trim();
         Serial.println(command);
         VARIABLE1 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 1:");
         waitForUserInput();
         //command.trim();
@@ -53,6 +44,7 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         VARIABLE2 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 2:");
         waitForUserInput();
         //command.trim();
@@ -67,6 +59,7 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         VARIABLE3 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 3:");
         waitForUserInput();
         //command.trim();
@@ -81,6 +74,7 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         VARIABLE4 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 4:");
         waitForUserInput();
         //command.trim();
@@ -95,6 +89,7 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         VARIABLE5 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 5:");
         waitForUserInput();
         //command.trim();
@@ -109,6 +104,7 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         VARIABLE6 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 6:");
         waitForUserInput();
         //command.trim();
@@ -123,6 +119,7 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         VARIABLE7 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 7:");
         waitForUserInput();
         //command.trim();
@@ -137,6 +134,7 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         VARIABLE8 = command;
+        resetInput();
         Serial.println("Ingrese la unidad de la variable 8:");
         waitForUserInput();
         //command.trim();
@@ -297,14 +295,19 @@ void waitForUserInput(){
     while (!userInput){ 
         if (Serial.available() > 0){
             char c = (char)Serial.read();
-            if (c != '\n'){
+            if (c != '\n' ){
                 command += c;
             }
             else{
                 userInput = true;
                 return;
             }
+        
         }
+           if (digitalRead(5) == LOW){
+            userInput = true;
+            return;
+            }
     }
 }
 

@@ -1,43 +1,10 @@
 #include <Arduino.h>
 #include "menu.h"
 #include "Button.h"
-#include "numeros_grandes.h"
+#include "lcd1602Configuracion.h"
 #include "eeprom.h"
 #include "definesConfiguraciones.h"
 #include "serial.h"
-
-//#include <LiquidCrystal.h> // Funcion para coneccion de LCD por piner de Datos
-
-/*
-The circuit:
- * LCD RS pin to digital pin 12
- * LCD Enable pin to digital pin 11
- * LCD D4 pin to digital pin 4
- * LCD D5 pin to digital pin 5
- * LCD D6 pin to digital pin 6
- * LCD D7 pin to digital pin 7
- * LCD R/W pin to ground
- * LCD VSS pin to ground
- * LCD VCC pin to 5V
- * 10K resistor:
- * ends to +5V and ground
- * wiper to LCD VO pin (pin 3)
- */
-
-/////////////////////////////////LCD COMUN LUCHETE (NO I2C)//////////////////////////////
-// Pin mapping for the display
-//const byte LCD_RS = 32;
-//const byte LCD_E = 33;
-//const byte LCD_D4 = 27;
-//const byte LCD_D5 = 4;   
-//const byte LCD_D6 = 2;
-//const byte LCD_D7 = 15;
-//LCD R/W pin to ground
-//10K potentiometer to VO
-//LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-///////////////////////////////////////////////////////////////////////////////
-
-LiquidCrystal_I2C lcd(0x3f, 16, 2); //Descomentar si se usa I2C
 
 bool flag_medicion=1 ;       //Variable que indica si esta en modo medicion o configuracion
 bool flag_temperatura=0 ;       //Variable que indica si esta en modo medicion o configuracion
@@ -82,9 +49,7 @@ LiquidScreen pantalla4(linea1_4);
 LiquidMenu menu(lcd,pantalla2,pantalla1,pantalla3,pantalla4);
 //////////////////////////////////////FUNCIONES LIGADAS AL MENU//////////////////////////////////////////////////
 void setup_menu(){
-  lcd.init(); //Descomentar para I2C
-//lcd.begin(16, 2); //Comentar si se usa I2C
-  lcd.backlight(); // Descomentar para I2C
+
   setup_numerosgrandes();
 //Primero se inicializa en que posicion estara el cursor RIGHT o LEFT
   menu.init();
@@ -186,12 +151,12 @@ void mostrarTemperatura(float temperatura){
 
 
 //////////////////////////////////////FUNCION PARA CALIBRAR LOS VALORES MOSTRADOS EN PANTALLA////////////////////////////////////////////////////////////////
-//Esta funcion es de simple calibracion para las mediciones que se quieren ver en pantalla
-//Los pasos a seguir son:
-//1)En cada caso se mostrara la medicion
-//2)Se ajustara el valor de la medicion con botup y botdown
-//3)Con el enter se pasará a ajustar la siguiente medición
-//4)Luego de pasar por todas las mediciones, se guardara la cablibracion en la EEPROM
+//  Esta funcion es de simple calibracion para las mediciones que se quieren ver en pantalla
+//  Los pasos a seguir son:
+//  1)En cada caso se mostrara la medicion
+//  2)Se ajustara el valor de la medicion con botup y botdown
+//  3)Con el enter se pasará a ajustar la siguiente medición
+//  4)Luego de pasar por todas las mediciones, se guardara la cablibracion en la EEPROM
 
 void mostrarCalibraciones(){
    if(flag_config_cal!=0){// si no esta en modo medicion procede a mostrar los valores
@@ -357,8 +322,6 @@ void mostrarCalibraciones(){
    }
   } 
  } 
-
- 
 ///////////////////////////////////////////////////////FUNCION PARA MOSTRAR VALORES EN PANTALLA////////////////////////////////////////////////////////////////// 
 
 void mostrarValores(float a,float b,float c,float d, float e,float f,float g,float h){
@@ -385,9 +348,6 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       if (b < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD2);
-
-      delay(100);
-      
       break;
     case 2: //Design of page 2
       lcd.setCursor(0,0);
@@ -407,8 +367,6 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       if (d < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD4);
-      
-      delay(100);
       break;
     case 3: //Design of page 3 
        lcd.setCursor(0,0);
@@ -428,7 +386,6 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       if (f < 10) lcd.print(" ");
       lcd.setCursor(15,1);
       lcd.print(UNIDAD6);
-      delay(100);
       break;
      case 4: //Design of page 4 
       lcd.setCursor(0,0);
@@ -447,8 +404,7 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       if (h < 100) lcd.print(" ");
       if (h < 10) lcd.print(" ");
       lcd.setCursor(15,1);
-      lcd.print(UNIDAD8);
-      delay(100); 
+      lcd.print(UNIDAD8); 
       break;
       
       default: 
@@ -511,194 +467,6 @@ void fn_configuraciones_serial(){
   menu.set_focusedLine(0);
   flag_config_cal_serial=1;
   }
-
-////////////////////////////////////////////FUNCION PARA MOSTRAR NUMEROS GRANDES//////////////////////////////////////////////////////////
-void setup_numerosgrandes(){
-  lcd.createChar(1,bar1);
-  lcd.createChar(2,bar2);
-  lcd.createChar(3,bar3);
-  lcd.createChar(4,bar4);
-  lcd.createChar(5,bar5);
-  lcd.createChar(6,bar6);
-  lcd.createChar(7,bar7);
-  lcd.createChar(8,bar8);
-  }
-
-void custom0(int col)
-{ // uses segments to build the number 0
-  lcd.setCursor(col, 0); 
-  lcd.write(2);  
-  lcd.write(8); 
-  lcd.write(1);
-  lcd.setCursor(col, 1); 
-  lcd.write(2);  
-  lcd.write(6);  
-  lcd.write(1);
-}
-
-void custom1(int col)
-{
-  lcd.setCursor(col,0);
-  lcd.write(32);
-  lcd.write(32);
-  lcd.write(1);
-  lcd.setCursor(col,1);
-  lcd.write(32);
-  lcd.write(32);
-  lcd.write(1);
-}
-
-void custom2(int col)
-{
-  lcd.setCursor(col,0);
-  lcd.write(5);
-  lcd.write(3);
-  lcd.write(1);
-  lcd.setCursor(col, 1);
-  lcd.write(2);
-  lcd.write(6);
-  lcd.write(6);
-}
-
-void custom3(int col)
-{
-  lcd.setCursor(col,0);
-  lcd.write(5);
-  lcd.write(3);
-  lcd.write(1);
-  lcd.setCursor(col, 1);
-  lcd.write(7);
-  lcd.write(6);
-  lcd.write(1); 
-}
-
-void custom4(int col)
-{
-  lcd.setCursor(col,0);
-  lcd.write(2);
-  lcd.write(6);
-  lcd.write(1);
-  lcd.setCursor(col, 1);
-  lcd.write(32);
-  lcd.write(32);
-  lcd.write(1);
-}
-
-void custom5(int col)
-{
-  lcd.setCursor(col,0);
-  lcd.write(2);
-  lcd.write(3);
-  lcd.write(4);
-  lcd.setCursor(col, 1);
-  lcd.write(7);
-  lcd.write(6);
-  lcd.write(1);
-}
-
-void custom6(int col)
-{
-  lcd.setCursor(col,0);
-  lcd.write(2);
-  lcd.write(3);
-  lcd.write(4);
-  lcd.setCursor(col, 1);
-  lcd.write(2);
-  lcd.write(6);
-  lcd.write(1);
-}
-
-void custom7(int col)
-{
-  lcd.setCursor(col,0);
-  lcd.write(2);
-  lcd.write(8);
-  lcd.write(1);
-  lcd.setCursor(col, 1);
-  lcd.write(32);
-  lcd.write(32);
-  lcd.write(1);
-}
-
-void custom8(int col)
-{
-  lcd.setCursor(col, 0); 
-  lcd.write(2);  
-  lcd.write(3); 
-  lcd.write(1);
-  lcd.setCursor(col, 1); 
-  lcd.write(2);  
-  lcd.write(6);  
-  lcd.write(1);
-}
-
-void custom9(int col)
-{
-  lcd.setCursor(col, 0); 
-  lcd.write(2);  
-  lcd.write(3); 
-  lcd.write(1);
-  lcd.setCursor(col, 1); 
-  lcd.write(7);  
-  lcd.write(6);  
-  lcd.write(1);
-}
-
-void printNumero(int valor, int col) {
-  if (valor == 0) {
-    custom0(col);
-  } if (valor == 1) {
-    custom1(col);
-  } if (valor == 2) {
-    custom2(col);
-  } if (valor == 3) {
-    custom3(col);
-  } if (valor == 4) {
-    custom4(col);
-  } if (valor == 5) {
-    custom5(col);
-  } if (valor == 6) {
-    custom6(col);
-  } if (valor == 7) {
-    custom7(col);
-  } if (valor == 8) {
-    custom8(col);
-  } if (valor == 9) {
-    custom9(col);
-  }      
-}  
-
-void printNumerosgrandes(int numero) {
-  int milena , centena, decena, unidad;
-  /*
-  if (number > 999) {
-    milena = (numero - (numero % 1000)) / 1000;
-    numero = numero % 1000;
-  } else {
-    milena = 0;
-  }  
-  */
-  if (numero > 99) {
-    centena = (numero - (numero % 100)) / 100;
-    numero = numero % 100;
-  } else {
-    centena = 0;
-  }  
-
-  if (numero > 9) {
-    decena = (numero - (numero % 10)) / 10;
-    numero = numero % 10;
-  } else {
-    decena = 0;
-  }  
-  unidad = numero;
-
- // printNumero(milena, 4);
-  printNumero(centena, 7);
-  printNumero(decena, 10);
-  printNumero(unidad, 13);
-}  
-
 
 
 
