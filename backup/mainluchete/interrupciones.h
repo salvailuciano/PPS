@@ -1,5 +1,0 @@
-
-
-
-void temperatura();
-void roe();
