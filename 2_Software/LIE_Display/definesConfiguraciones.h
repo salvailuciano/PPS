@@ -1,11 +1,6 @@
 #include <Arduino.h>
-//////////////////////////////////// FUSES ////////////////////////////////////////////
-//#define DEBUG_VALORES // Se debugean valores por serial si se utiliza esta funcion
-
 /////////////////////////////DECLARACION DE PINES//////////////////////////////////////
 //PINES DE BOTONES
-//#define Bot_left   12
-//#define Bot_right  11
 #define Bot_up     5
 #define Bot_down   0
 #define Bot_enter  15
