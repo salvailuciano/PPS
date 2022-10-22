@@ -60,9 +60,6 @@ void loop(){
   float tensionLinea[cantidadMuestras] {};
   
 //////////////////////LECTURA DE ENTRADA////////////////////////////
-///////////////////////////////////////////////////////////////////
-// Funcion "tomarMedicion(float valor, float arreglo[])": Se le envia el valor de cada medicion para el calculo del ADC y el arreglo para cargarlo con 10 muestras, retorna promedio de las 10 muestras
-/////////////////////////////////////////////////////////////////////
   //Serial.print("##MEDICIONES 1 y 2: ");
   tomarMedicion(valorPD, potenciaTransferida, valorPR, potenciaReflejada, 1, cuadratica, cuadratica);
   float potenciaTransferidaProm = valorPromedio;
@@ -96,15 +93,6 @@ void loop(){
   mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
   Serial.println("Midiendo");
   }
-  
-  #ifdef DEBUG_VALORES
-  Serial.println("Verificacion fuera de la funcion del arreglo");//Verifica que se actualiza el arreglo en el main
-  for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    Serial.print(potenciaTransferida[muestraActual]);
-    Serial.print(" ");
-  }
-  #endif
-  
   if(flagValores==true){
     Serial.println();
     Serial.print("1) PD promedio: ");
@@ -159,9 +147,6 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
     else{
     arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
      }
-    //Forma anterior de muestreo
-    //arreglo[muestraActual] = ((analogRead(muxin_A)*vRefADC)/nivelesDigitalesADC)*valor;
-    //arreglo2[muestraActual] = ((analogRead(muxin_B)*vRefADC)/nivelesDigitalesADC)*valor2;
   }
 
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
@@ -185,19 +170,7 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
  
     if (muxMuestras>7) muxMuestras=0;
   }
-  
-#ifdef DEBUG_VALORES
-  for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    Serial.print(arreglo[muestraActual]);
-    Serial.print(" ");
-  }
-  Serial.println("");
-  for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-    Serial.print(arreglo2[muestraActual]);
-    Serial.print(" ");
-  }
-  Serial.println();
- #endif
+ 
  
   leerBotones();
   valorPromedio = calcularProm(arreglo);

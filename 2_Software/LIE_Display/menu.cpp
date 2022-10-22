@@ -17,8 +17,6 @@ int contador_ajuste=0;
 ///////////////////////////DECLARACION DE BOTONES//////////////////////////////////
 // Button objects instantiatio
 const bool pullup = true;
-//Button left(12, pullup);
-//Button right(11, pullup);
 Button up(Bot_up, pullup);
 Button down(Bot_down, pullup);
 Button enter(Bot_enter, pullup);
@@ -33,13 +31,6 @@ LiquidScreen pantalla1(linea1,linea2,linea3,linea4);
 
 LiquidLine linea1_2(1, 0);
 LiquidScreen pantalla2(linea1_2);
-/*
-LiquidLine analog_line1_2(1, 0, VARIABLE1, analogValue[0]);
-LiquidLine analog_line2_2(1, 0, VARIABLE2, analogValue[1]);
-LiquidLine analog_line3_2(1, 0, VARIABLE3, analogValue[2]);
-LiquidLine analog_line4_2(1, 0, VARIABLE4, analogValue[3]);
-LiquidScreen pantalla2(analog_line1_2,analog_line2_2,analog_line3_2,analog_line4_2);
-*/
 LiquidLine linea1_3(1, 1);
 LiquidScreen pantalla3(linea1_3);
 
@@ -89,16 +80,6 @@ void setup_menu(){
  void leerBotones(){
 
 // Check all the buttons
-/* if (right.check() == LOW) {
-    Serial.println(F("RIGHT button pressed"));
-    menu.next_screen();
-  }
-  if (left.check() == LOW) {
-    Serial.println(F("LEFT button pressed"));
-    menu.previous_screen();
-  }
-  */
-
   if (up.check() == LOW) {
    // Serial.println(F("UP button pressed"));
     // Calls the function identified with one

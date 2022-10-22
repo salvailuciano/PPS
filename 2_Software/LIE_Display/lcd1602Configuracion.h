@@ -3,21 +3,6 @@
 
 LiquidCrystal_I2C lcd(0x3f, 16, 2); //Descomentar si se usa I2C
 
-//#include <LiquidCrystal.h> // Funcion para coneccion de LCD por piner de Datos
-
-/////////////////////////////////LCD COMUN LUCHETE (NO I2C)//////////////////////////////
-// Pin mapping for the display
-//const byte LCD_RS = 32;
-//const byte LCD_E = 33;
-//const byte LCD_D4 = 27;
-//const byte LCD_D5 = 4;   
-//const byte LCD_D6 = 2;
-//const byte LCD_D7 = 15;
-//LCD R/W pin to ground
-//10K potentiometer to VO
-//LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-///////////////////////////////////////////////////////////////////////////////
-
 // the 8 arrays that form each segment of the custom numbers
 byte bar1[8] = 
 {
