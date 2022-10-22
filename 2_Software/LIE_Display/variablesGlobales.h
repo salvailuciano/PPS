@@ -1,4 +1,4 @@
-//////////////////////// VALORESS DE MEDICION A MOSTRAR EN PANTALLA /////////////////////////////////
+//////////////// VALORESS DE MEDICION A MOSTRAR EN PANTALLA //////////////////
 float valorPD= 500;
 float valorPR= 200;
 float valorAGC= 20;
@@ -11,7 +11,6 @@ float bitsResolucion=12;//1024 valores
 volatile int interruptCounter;
 bool flagValores=false;
 bool flagADC=false;
-
 
 String VARIABLE1="P Directa: ";
 String VARIABLE2="P Refejada: ";
