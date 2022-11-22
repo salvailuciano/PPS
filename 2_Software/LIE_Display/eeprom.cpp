@@ -4,6 +4,61 @@
 #include "definesConfiguraciones.h"
 Preferences preferences;
 
+
+//////////////////////////Memoria EEPROM//////////////////////////////////////////
+//  En este programa se describe el manejo de la memoria eeprom y el guardado de datos:
+/*
+La posibilidad de poder guardar datos en la memoria no volatil del microcontrolador
+es vital para este proyecto, ya que permite que mediante el protocolo serial
+se puedan modificar todos los parametros que se deseen y no se borre la informacion
+al cortar el suministro electrico del dispositivo o reiniciarlo.
+
+El microcontrolador esp32, no posee directamente un sistema de memoria EEPROM,
+sino una memoria flash, la cual se puede acceder libremente, por lo que se programo
+un sistema para reservar una cantidad de memoria fija en la memoria flash
+y poder acceder a datos guardados en esta.
+
+Esta memoria flash es una particion llamada NVS partition(non volatile storage),
+o en español particion de memoria no volatil 
+
+Lo importante es que el acceso y el nombramiento de variables es individual
+y se puede apreciar que en terminos de programacion tiene un funcionamiento simple
+
+Primero se debe creal un nombre al conjunto de variables que se guardara. Esto se asigna
+con un nombre x , que contiene el global de las variables.
+
+Luego, se puede guardar todos los tipos de variables existentes apuntando a cada una
+con su tipo respectivo. Los tipos de variables mas comun que se pueden guardar son:
+-Float
+-String
+-Int
+-Char
+-Bool
+-Double
+-Bytes
+
+Ejemplo
+
+preferences.begin("myproyect", false);
+  
+valorPD=preferences.getFloat("var1",500);
+preferences.putFloat("var1", writeVariable1);
+
+.preferences el namespace standar
+.myproyect es el nombre de el espacio donde se guardaran todas las variables
+.begin inicializa a la eeprom para leerla o escibirla
+.getfloat sera para obtener el valor de la variable guardada y asignarla a valorPD
+.putbloat escribe en var1 el valor de la variable writeVariable1 
+.var1 es el nombre que se le asigna a la variable en la memoria flash
+.500 sera el valor por defecto si no hay nada guardado en ese sector flash
+
+Todo esto ha sido realizado en funciones para evitar repetir programacion y que sea
+mas facil manipular las variables.
+
+
+*/
+
+
 void readEeprom() {  
   preferences.begin("myproyect", false);
   valorPD = preferences.getFloat("var1",500); //

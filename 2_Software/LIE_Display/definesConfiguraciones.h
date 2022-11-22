@@ -17,9 +17,9 @@
 
 ///////////////////////// CONFIGURACION MEDICIONES Y ADC///////////////////////////////
 const int cantidadMediciones = 8;//
-const int cantidadMuestras = 16;
-const float vRefADC = 2;// si se usa la atenuacion de 6.6db es decir el valor maximo de 4095 se dara a 2.2v
-const float vSensoresADC = 2; //tension de los sensores en la medicion buscada establecida en 2v a fullscale
+const int cantidadMuestras = 10;
+const float vRefADC = 2.2;// si se usa la atenuacion de 6.6db es decir el valor maximo de 4095 se dara a 2.2v
+const float vSensoresADC = 2.2; //tension de los sensores en la medicion buscada establecida en 2v a fullscale
 
 //////////////////////////DEFINIR NOMBRE DE VARIABLES/////////////////////////////////
 extern String VARIABLE1;

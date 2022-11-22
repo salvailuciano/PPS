@@ -1,6 +1,56 @@
 #include "definesConfiguraciones.h"
 #include "eeprom.h"
 
+//////////////////////////Comunicacion serial///////////////////////////////
+//  En este programa se describe la comunicacion serial y su funcionamiento:
+/*
+El proposito de la comunicacion serial es que a travez de un monitor serial
+se pueda modificar tanto los valores maximos a mostrar en el display
+como la posibilidad de configuraciones y monitoreo:
+
+Se puede por un lado monitorear los datos del sistema tanto:
+-Mediciones en tiempo real
+-Valor puro del adc en cuentas
+-Nombres asignados a las variables
+
+Por otro lado se pueden modificar los parametros de medicion:
+
+Esto se realiza de la siguiente forma:
+
+Se envia un codigo especifico a la configuracion que se quiere modificar.
+Luego el sistema responde para guardar la variable en la memoria eeprom
+y finalmente se actualiza lo que se modifico
+
+Los codigos que se programaron para la comunicacion serial son:
+
+-001 Se cambia el nombre de la variable 1 y la unidad de esta medicion
+-002 Se cambia el nombre de la variable 2 y la unidad de esta medicion
+-003 Se cambia el nombre de la variable 3 y la unidad de esta medicion
+-004 Se cambia el nombre de la variable 4 y la unidad de esta medicion
+-005 Se cambia el nombre de la variable 5 y la unidad de esta medicion
+-006 Se cambia el nombre de la variable 6 y la unidad de esta medicion
+-007 Se cambia el nombre de la variable 7 y la unidad de esta medicion
+-008 Se cambia el nombre de la variable 8 y la unidad de esta medicion
+-009 Se cambia el valor de la variable 1 que se mostrara a full scale del adc
+-010 Se cambia el valor de la variable 2 que se mostrara a full scale del adc
+-011 Se cambia el valor de la variable 3 que se mostrara a full scale del adc
+-012 Se cambia el valor de la variable 4 que se mostrara a full scale del adc
+-013 Se cambia el valor de la variable 5 que se mostrara a full scale del adc
+-014 Se cambia el valor de la variable 6 que se mostrara a full scale del adc
+-015 Se cambia el valor de la variable 7 que se mostrara a full scale del adc
+-016 Se cambia el valor de la variable 8 que se mostrara a full scale del adc
+-017 Se muestran los valores en tiempo real de todas las mediciones
+-018 Se muestran los valores del adc de todas las variables
+-020 Se muestran todos los valores full scale configurados
+-030 Se puede configurar y modificar los bits de resolucion del adc de 9 a 12 bits
+-098 Se puede borrar la memoria eeprom y descartar los cambios que se hayan realizado
+
+El objetivo principal de este modo serial es la posibilidad de configurar el dispositivo
+sin cambiar el codigo y reprogramar el mirocontrolador. 
+*/
+
+
+
 void waitForUserInput();
 void resetInput();
 String  command;

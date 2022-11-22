@@ -133,22 +133,26 @@ void loop(){
 void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,int tipodeMedicion1,int tipodeMedicion2){
   
   for(int muestraActual = 0 ; muestraActual < cantidadMuestras ; muestraActual++){
-
+int aux1,aux2=0;
   if (tipodeMedicion1==0){
     arreglo[muestraActual] = (analogRead(muxin_A)/calAdc)*valor; // El arreglo toma el valor de la primera medicion en escala lineal
     }
     else{
     arreglo[muestraActual] = sq((analogRead(muxin_A)/calAdc))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
      }
+     delayMicroseconds(30);
   
   if (tipodeMedicion2==0){
-    arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
+  //  arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
+        
+      aux1 = analogRead(muxin_B); // El arreglo toma el valor de la primera medicion en escala lineal
+      arreglo2[muestraActual] =   map(aux1, 0, nivelesDigitalesADC, 0, valor2);
     }
     else{
     arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
      }
   }
-
+     delayMicroseconds(30);
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
  
   if(flagADC==true){
