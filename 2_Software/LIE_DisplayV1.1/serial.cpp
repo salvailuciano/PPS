@@ -23,34 +23,31 @@ y finalmente se actualiza lo que se modifico
 
 Los codigos que se programaron para la comunicacion serial son:
 
--001 Se cambia el nombre de la variable 1 y la unidad de esta medicion
--002 Se cambia el nombre de la variable 2 y la unidad de esta medicion
--003 Se cambia el nombre de la variable 3 y la unidad de esta medicion
--004 Se cambia el nombre de la variable 4 y la unidad de esta medicion
--005 Se cambia el nombre de la variable 5 y la unidad de esta medicion
--006 Se cambia el nombre de la variable 6 y la unidad de esta medicion
--007 Se cambia el nombre de la variable 7 y la unidad de esta medicion
--008 Se cambia el nombre de la variable 8 y la unidad de esta medicion
--009 Se cambia el valor de la variable 1 que se mostrara a full scale del adc
--010 Se cambia el valor de la variable 2 que se mostrara a full scale del adc
--011 Se cambia el valor de la variable 3 que se mostrara a full scale del adc
--012 Se cambia el valor de la variable 4 que se mostrara a full scale del adc
--013 Se cambia el valor de la variable 5 que se mostrara a full scale del adc
--014 Se cambia el valor de la variable 6 que se mostrara a full scale del adc
--015 Se cambia el valor de la variable 7 que se mostrara a full scale del adc
--016 Se cambia el valor de la variable 8 que se mostrara a full scale del adc
+-001 Se cambia el nombre de la variable 1, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-002 Se cambia el nombre de la variable 2, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-003 Se cambia el nombre de la variable 3, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-004 Se cambia el nombre de la variable 4, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-005 Se cambia el nombre de la variable 5, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-006 Se cambia el nombre de la variable 6, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-007 Se cambia el nombre de la variable 7, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-008 Se cambia el nombre de la variable 8, la unidad de esta medicion, valor full escala, tipo de medicion y valores a promediar
+-009 Se cambia el valor para calibrar la medicion 1
+-010 Se cambia el valor para calibrar la medicion 2
+-011 Se cambia el valor para calibrar la medicion 3
+-012 Se cambia el valor para calibrar la medicion 4
+-013 Se cambia el valor para calibrar la medicion 5
+-014 Se cambia el valor para calibrar la medicion 6
+-015 Se cambia el valor para calibrar la medicion 7
+-016 Se cambia el valor para calibrar la medicion 8
 -017 Se muestran los valores en tiempo real de todas las mediciones
 -018 Se muestran los valores del adc de todas las variables
 -020 Se muestran todos los valores full scale configurados
--030 Se puede configurar y modificar los bits de resolucion del adc de 9 a 12 bits
+-050 Se puede configurar y modificar los bits de resolucion del adc de 9 a 12 bits
 -098 Se puede borrar la memoria eeprom y descartar los cambios que se hayan realizado
 
 El objetivo principal de este modo serial es la posibilidad de configurar el dispositivo
 sin cambiar el codigo y reprogramar el mirocontrolador. 
 */
-
-
-
 void waitForUserInput();
 void resetInput();
 String  command;
@@ -359,6 +356,81 @@ int calibracionesGenerales(){
         resetInput();
         
         writeEEPROMVariables(7);
+      }
+
+      else if (command.equals("009")){
+        Serial.println("Ingrese el valor de calibracion de la variable 1:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC1 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(8);     
+      }
+      else if (command.equals("010")){
+        Serial.println("Ingrese el valor de calibracion de la variable 2:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC2 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(9);     
+      }
+      else if (command.equals("011")){
+       Serial.println("Ingrese el valor de calibracion de la variable 3:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC3 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(10);     
+      }
+      else if (command.equals("012")){
+        Serial.println("Ingrese el valor de calibracion de la variable 4:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC4 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(11);     
+      }
+      else if (command.equals("013")){
+        Serial.println("Ingrese el valor de calibracion de la variable 5:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC5 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(12);     
+      }
+
+      else if (command.equals("014")){
+        Serial.println("Ingrese el valor de calibracion de la variable 6:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC6 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(13);     
+      }
+
+      else if (command.equals("015")){
+        Serial.println("Ingrese el valor de calibracion de la variable 7:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC7 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(14);     
+      }
+      else if (command.equals("016")){
+        Serial.println("Ingrese el valor de calibracion de la variable 8:");
+        waitForUserInput();
+        Serial.println(command);
+        CalADC8 =command.toFloat();
+        resetInput();
+        
+        writeEEPROMVariables(15);     
       }
 
       else if (command.equals("017")){

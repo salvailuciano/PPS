@@ -62,9 +62,18 @@ extern float Escala6;
 extern float Escala7;
 extern float Escala8;
 
-const int cantidadMediciones = 8;//
 //////////////////////////DEFINIR PROMEDIACION///////////////////////////////
 extern float Promedio[8];
+
+//////////////////////////DEFINIR ESCALAS///////////////////////////////
+extern float CalADC1;
+extern float CalADC2;
+extern float CalADC3;
+extern float CalADC4;
+extern float CalADC5;
+extern float CalADC6;
+extern float CalADC7;
+extern float CalADC8;
 /*
 extern float Promedio2;
 extern float Promedio3;

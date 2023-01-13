@@ -54,10 +54,7 @@ preferences.putFloat("var1", writeVariable1);
 
 Todo esto ha sido realizado en funciones para evitar repetir programacion y que sea
 mas facil manipular las variables.
-
-
 */
-
 
 void readEeprom() {  
   preferences.begin("myproyect", false);
@@ -69,7 +66,24 @@ void readEeprom() {
   valorVexc = preferences.getFloat("var6",28); //
   valorVaux = preferences.getFloat("var7",12); //
   valorVlinea = preferences.getFloat("var8",220); //
-  bitsResolucion = preferences.getFloat("var50",12); //
+  
+  VARIABLE1=preferences.getString("var10", "PD_ANTE:");
+  VARIABLE2=preferences.getString("var11", "PR_ANTE:");
+  VARIABLE3=preferences.getString("var12", "%_AUDIO:");
+  VARIABLE4=preferences.getString("var13", "I_SAL:");
+  VARIABLE5=preferences.getString("var14", "V_SAL:");
+  VARIABLE6=preferences.getString("var15", "V_EXC:");
+  VARIABLE7=preferences.getString("var16", "V_AUX:");
+  VARIABLE8=preferences.getString("var17", "V_LINEA:");
+
+  UNIDAD1=preferences.getString("var18", "Wav");
+  UNIDAD2=preferences.getString("var19", "Wav");
+  UNIDAD3=preferences.getString("var20", "%");
+  UNIDAD4=preferences.getString("var21", "A");
+  UNIDAD5=preferences.getString("var22", "Vcc");
+  UNIDAD6=preferences.getString("var23", "Vcc");
+  UNIDAD7=preferences.getString("var24", "Vcc");
+  UNIDAD8=preferences.getString("var25", "Vca");
 
   Escala1 = preferences.getFloat("var26",1); //
   Escala2 = preferences.getFloat("var27",1); //
@@ -89,24 +103,16 @@ void readEeprom() {
   Promedio[6] = preferences.getFloat("var40",4); //
   Promedio[7] = preferences.getFloat("var41",8); //
 
+  CalADC1 = preferences.getFloat("var42",1023); //
+  CalADC2 = preferences.getFloat("var43",1023); //
+  CalADC3 = preferences.getFloat("var44",1023); //
+  CalADC4 = preferences.getFloat("var45",1023); //
+  CalADC5 = preferences.getFloat("var46",1023); //
+  CalADC6 = preferences.getFloat("var47",1023); //
+  CalADC7 = preferences.getFloat("var48",1023); //
+  CalADC8 = preferences.getFloat("var49",1023); //
 
-  VARIABLE1=preferences.getString("var10", "PD_ANTE:");
-  VARIABLE2=preferences.getString("var11", "PR_ANTE:");
-  VARIABLE3=preferences.getString("var12", "%_AUDIO:");
-  VARIABLE4=preferences.getString("var13", "I_SAL:");
-  VARIABLE5=preferences.getString("var14", "V_SAL:");
-  VARIABLE6=preferences.getString("var15", "V_EXC:");
-  VARIABLE7=preferences.getString("var16", "V_AUX:");
-  VARIABLE8=preferences.getString("var17", "V_LINEA:");
-
-  UNIDAD1=preferences.getString("var18", "Wav");
-  UNIDAD2=preferences.getString("var19", "Wav");
-  UNIDAD3=preferences.getString("var20", "%");
-  UNIDAD4=preferences.getString("var21", "A");
-  UNIDAD5=preferences.getString("var22", "Vcc");
-  UNIDAD6=preferences.getString("var23", "Vcc");
-  UNIDAD7=preferences.getString("var24", "Vcc");
-  UNIDAD8=preferences.getString("var25", "Vca");
+  bitsResolucion = preferences.getFloat("var50",10); //
   
   preferences.end();
 }
@@ -127,6 +133,24 @@ void writeEEPROM(float writeVariable1,float writeVariable2,float writeVariable3,
 
   preferences.end();
  }
+
+void writeEEPROMCal(float writeVariable1,float writeVariable2,float writeVariable3, float writeVariable4, float writeVariable5, float writeVariable6, float writeVariable7,float writeVariable8){
+   //init preference
+  preferences.begin("myproyect", false);
+  //preferences.clear(); // remove all preferences in namespace myfile
+  //preferences.remove("varname");// remove varname in the namespace
+  preferences.putFloat("var42", CalADC1);
+  preferences.putFloat("var43", CalADC2);
+  preferences.putFloat("var44", CalADC3);
+  preferences.putFloat("var45", CalADC4);
+  preferences.putFloat("var46", CalADC5);
+  preferences.putFloat("var47", CalADC6);
+  preferences.putFloat("var48", CalADC7);
+  preferences.putFloat("var49", CalADC8);
+
+  preferences.end();
+ }
+
 
 void writeEEPROMVariables(short variable){
 
@@ -188,29 +212,29 @@ void writeEEPROMVariables(short variable){
                    preferences.putFloat("var33", Escala8);
                    preferences.putFloat("var41", Promedio[7]);  
                    break;
-           case 8:
-                   
+           case 8: 
+                   preferences.putFloat("var42", CalADC1);
                    break;
-           case 9:
-                  
+           case 9: 
+                   preferences.putFloat("var43", CalADC2);
                    break;
-           case 10:
-                  
+           case 10:  
+                   preferences.putFloat("var44", CalADC3);
                    break;
-           case 11:
-                   
+           case 11:  
+                   preferences.putFloat("var45", CalADC4);
                    break;
            case 12:
-                   
+                   preferences.putFloat("var46", CalADC5);
                    break;
-           case 13:
-                   
+           case 13: 
+                   preferences.putFloat("var47", CalADC6); 
                    break;
-           case 14:
-                   
+           case 14:  
+                   preferences.putFloat("var48", CalADC7);
                    break;
            case 15:
-                   
+                   preferences.putFloat("var49", CalADC8);
                    break;
            case 50:
                    preferences.putFloat("var50", bitsResolucion);

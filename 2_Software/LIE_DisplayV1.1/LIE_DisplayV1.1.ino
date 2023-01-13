@@ -61,19 +61,19 @@ void loop(){
   
 //////////////////////LECTURA DE ENTRADA////////////////////////////
   //Serial.print("##MEDICIONES 1 y 2: ");
-  tomarMedicion(valorPD, potenciaTransferida, valorPR, potenciaReflejada, 1, Escala1, Escala2);
+  tomarMedicion(valorPD, potenciaTransferida, valorPR, potenciaReflejada, 1, CalADC1, CalADC2, Escala1, Escala2);
   float potenciaTransferidaProm = valorPromedio;
   float potenciaReflejadaProm = valorPromedio2;
   //Serial.print("##MEDICIONES 3 y 4: ");
-  tomarMedicion(valorAGC, AGC, valorIsal, corrienteSalida, 2, Escala3, Escala4);
+  tomarMedicion(valorAGC, AGC, valorIsal, corrienteSalida, 2, CalADC3, CalADC4, Escala3, Escala4);
   float AGCProm = valorPromedio;
   float corrienteSalidaProm = valorPromedio2;
   //Serial.print("##MEDICIONES 5 y 6: ");
-  tomarMedicion(valorVsal, tensionSalida, valorVexc, tensionExc, 3, Escala5, Escala6);
+  tomarMedicion(valorVsal, tensionSalida, valorVexc, tensionExc, 3, CalADC5, CalADC6, Escala6, Escala6);
   float tensionSalidaProm = valorPromedio;
   float tensionExcProm = valorPromedio2;
   //erial.print("##MEDICIONES 7 y 8: ");
-  tomarMedicion(valorVaux, tensionAux, valorVlinea, tensionLinea, 0, Escala7, Escala8);
+  tomarMedicion(valorVaux, tensionAux, valorVlinea, tensionLinea, 0, CalADC7, CalADC8, Escala7, Escala8);
   float tensionAuxProm = valorPromedio;
   float tensionLineaProm = valorPromedio2;
   float temperatura=lecturaTemperatura();
@@ -130,45 +130,14 @@ void loop(){
 // IMPORTANTE => LA FUNCION NO RETORNA EL ARREGLO, PERO AL ENVIARLE CADA ARREGLO POR SEPARADO LOS COMPLETA IGUAL, POR LO TANTO ACTUALIZA LOS ARREGLOS EN EL MAIN
 // Esto se puede sacar si no es necesario guardar los valores de las muestras, el arreglo se crearía, se completa, se calcula promedio y se borra (sería mas eficaz)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,float tipodeMedicion1,float tipodeMedicion2){
-  /*
-  for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
-//int aux1,aux2=0;
-  if (tipodeMedicion1==0){
-    arreglo[muestraActual] = (analogRead(muxin_A)/calAdc)*valor; // El arreglo toma el valor de la primera medicion en escala lineal
-    }
-    else{
-    arreglo[muestraActual] = sq((analogRead(muxin_A)/calAdc))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
-     }
-     
-   }
-   delay(5);
-   if (t<8) t++;
-    else t=0;
-    
-   for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
-  if (tipodeMedicion2==0){
-    arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
-     // aux1 = analogRead(muxin_B); // El arreglo toma el valor de la primera medicion en escala lineal
-     // arreglo2[muestraActual] =   map(aux1, 0, nivelesDigitalesADC, 0, valor2);
-    }
-    else{
-    arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
-     }
-    
-    }
-     delay(5);
-   if (t<8) t++;
-    else t=0;
- 
-*/
+void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,float calibracion1, float calibracion2 ,float tipodeMedicion1,float tipodeMedicion2){
 
   for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
   if (tipodeMedicion1==0){
-    arreglo[muestraActual] = (analogRead(muxin_A)/calAdc)*valor; // El arreglo toma el valor de la primera medicion en escala lineal
+    arreglo[muestraActual] = (analogRead(muxin_A)/calibracion1)*valor; // El arreglo toma el valor de la primera medicion en escala lineal
     }
     else{
-    arreglo[muestraActual] = sq((analogRead(muxin_A)/calAdc))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
+    arreglo[muestraActual] = sq((analogRead(muxin_A)/calibracion1))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
      }
      delayMicroseconds(30);
     }
@@ -177,10 +146,10 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
     
   if (tipodeMedicion2==0){
     
-    arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
+    arreglo2[muestraActual] = (analogRead(muxin_B)/calibracion2)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
     }
     else{
-    arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
+    arreglo2[muestraActual] = sq((analogRead(muxin_B)/calibracion2))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
      }
       delayMicroseconds(30);
   }

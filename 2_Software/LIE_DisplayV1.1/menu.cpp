@@ -147,18 +147,17 @@ void mostrarCalibraciones(){
       lcd.setCursor(0,0);
       lcd.print(VARIABLE1);
       lcd.setCursor(12,0);
-      lcd.print(valorPD,0);
-      if (valorPD < 100) lcd.print(" ");
-      if (valorPD < 10) lcd.print(" ");
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD1);
+      lcd.print(CalADC1,0);
+      if (CalADC1 < 1000) lcd.print(" ");
+      if (CalADC1 < 100) lcd.print(" ");
+      if (CalADC1 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW)  {
-      valorPD++;
+      CalADC1++;
       }
        if (digitalRead(0) == LOW) {
-      valorPD--;
+      CalADC1--;
       }
       break;
   
@@ -166,18 +165,17 @@ void mostrarCalibraciones(){
       lcd.setCursor(0,0);
       lcd.print(VARIABLE2);
       lcd.setCursor(12,0);
-      lcd.print(valorPR,0);
-      if (valorPR < 100) lcd.print(" ");
-      if (valorPR < 10) lcd.print(" ");
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD2);
+      lcd.print(CalADC2,0);
+      if (CalADC2 < 1000) lcd.print(" ");
+      if (CalADC2 < 100) lcd.print(" ");
+      if (CalADC2 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW) {
-      valorPR++;
+      CalADC2++;
       }
        if (digitalRead(0)  == LOW) {
-      valorPR--;
+      CalADC2--;
        }
       break;
 
@@ -185,41 +183,35 @@ void mostrarCalibraciones(){
       lcd.setCursor(0,0);
       lcd.print(VARIABLE3);
       lcd.setCursor(12,0);
-      lcd.print(valorAGC,0);
-      if (valorAGC < 100) lcd.print(" ");
-      if (valorAGC < 10) lcd.print(" ");
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD3);
+      lcd.print(CalADC3,0);
+      if (CalADC3 < 1000) lcd.print(" ");
+      if (CalADC3 < 100) lcd.print(" ");
+      if (CalADC3 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW) {
-      valorAGC++;
+      CalADC3++;
       }
         if (digitalRead(0)  == LOW) {
-      valorAGC--;
+      CalADC3--;
        }
       break;
 
-      case 3: //Ajuste medicion1 
+       case 3: //Ajuste medicion1
       lcd.setCursor(0,0);
       lcd.print(VARIABLE4);
-      lcd.setCursor(11,0);
-      if (valorIsal >= 10){  
-      lcd.print(valorIsal,1);
-      }
-      else{
-      lcd.print(" ");
-      lcd.print(valorIsal,1);
-      }
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD4);
+      lcd.setCursor(12,0);
+      lcd.print(CalADC4,0);
+      if (CalADC4 < 1000) lcd.print(" ");
+      if (CalADC4 < 100) lcd.print(" ");
+      if (CalADC4 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW) {
-      valorIsal+=0.1;
+      CalADC4++;
       }
-       if (digitalRead(0)  == LOW) {
-      valorIsal-=0.1;
+        if (digitalRead(0)  == LOW) {
+      CalADC4--;
        }
       break;
   
@@ -227,18 +219,17 @@ void mostrarCalibraciones(){
       lcd.setCursor(0,0);
       lcd.print(VARIABLE5);
       lcd.setCursor(12,0);
-      lcd.print(valorVsal,0);
-      if (valorVsal < 100) lcd.print(" ");
-      if (valorVsal < 10) lcd.print(" ");
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD5);
+      lcd.print(CalADC5,0);
+      if (CalADC5 < 1000) lcd.print(" ");
+      if (CalADC5 < 100) lcd.print(" ");
+      if (CalADC5 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW) {
-      valorVsal++;
+      CalADC5++;
       }
        if (digitalRead(0)  == LOW) {
-      valorVsal--;
+      CalADC5--;
        }
       break;
 
@@ -246,18 +237,17 @@ void mostrarCalibraciones(){
       lcd.setCursor(0,0);
       lcd.print(VARIABLE6);
       lcd.setCursor(12,0);
-      lcd.print(valorVexc,0);
-      if (valorVexc < 100) lcd.print(" ");
-      if (valorVexc < 10) lcd.print(" ");
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD6); 
+      lcd.print(CalADC6,0);
+      if (CalADC6 < 1000) lcd.print(" ");
+      if (CalADC6 < 100) lcd.print(" ");
+      if (CalADC6 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW) {
-      valorVexc++;
+      CalADC6++;
       }
        if (digitalRead(0)  == LOW) {
-      valorVexc--;
+      CalADC6--;
        }
       break;
 
@@ -265,18 +255,17 @@ void mostrarCalibraciones(){
       lcd.setCursor(0,0);
       lcd.print(VARIABLE7);
       lcd.setCursor(12,0);
-      lcd.print(valorVaux,0);
-      if (valorVaux < 100) lcd.print(" ");
-      if (valorVaux < 10) lcd.print(" ");
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD7);
+      lcd.print(CalADC7,0);
+      if (CalADC7 < 1000) lcd.print(" ");
+      if (CalADC7 < 100) lcd.print(" ");
+      if (CalADC7 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW) {
-      valorVaux++;
+      CalADC7++;
       }
       if (digitalRead(0)  == LOW) {
-      valorVaux--;
+      CalADC7--;
        }
       break;
      
@@ -284,23 +273,21 @@ void mostrarCalibraciones(){
       lcd.setCursor(0,0);
       lcd.print(VARIABLE8);
       lcd.setCursor(12,0);
-      lcd.print(valorVlinea,0);
-      if (valorVlinea < 100) lcd.print(" ");
-      if (valorVlinea < 10) lcd.print(" ");
-      lcd.setCursor(15,0);
-      lcd.print(UNIDAD8);
+      lcd.print(CalADC8,0);
+      if (CalADC8 < 100) lcd.print(" ");
+      if (CalADC8 < 10) lcd.print(" ");
       lcd.setCursor(0,1);
       lcd.print("Siguiente");
       if (digitalRead(5) == LOW) {
-      valorVlinea++;
+      CalADC8++;
       }
       if (digitalRead(0)  == LOW) {
-      valorVlinea--;
+      CalADC8--;
        }
       break;
 
       case 8: //Ajuste medicion1 
-      writeEEPROM(valorPD,valorPR,valorAGC,valorIsal,valorVsal,valorVexc,valorVaux,valorVlinea);
+      writeEEPROMCal(CalADC1,CalADC2,CalADC3,CalADC4,CalADC5,CalADC6,CalADC7,CalADC8);
       contador_ajuste=0;
       menu.call_function(1);
       break;
@@ -372,23 +359,23 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
   switch (page_counter){
     case 1: //Design of home page 1     
 
-      lcd.setCursor(10,0);
+      lcd.setCursor(9,0);
       lcd.print(a,0); 
       if (a < 100) lcd.print(" ");
       if (a < 10) lcd.print(" ");
       
-      lcd.setCursor(10,1);
+      lcd.setCursor(9,1);
       lcd.print(int(b),1); 
       if (b < 100) lcd.print(" ");
       if (b < 10) lcd.print(" ");
       break;
     case 2: //Design of page 2
-      lcd.setCursor(10,0);
+      lcd.setCursor(9,0);
       lcd.print(c,0); 
       if (c < 100) lcd.print(" ");
       if (c < 10) lcd.print(" ");
 
-      lcd.setCursor(9,1);
+      lcd.setCursor(8,1);
       if (d >= 10){  
       lcd.print(d,1);
       }
@@ -398,24 +385,24 @@ void mostrarValores(float a,float b,float c,float d, float e,float f,float g,flo
       }
       break;
     case 3: //Design of page 3 
-      lcd.setCursor(10,0);
+      lcd.setCursor(9,0);
       lcd.print(e,0);
       if (e < 100) lcd.print(" ");
       if (e < 10) lcd.print(" ");
       
-      lcd.setCursor(10,1);
+      lcd.setCursor(9,1);
       lcd.print(int(f),1);
       if (f < 100) lcd.print(" ");
       if (f < 10) lcd.print(" ");
       break;
       
      case 4: //Design of page 4 
-      lcd.setCursor(10,0);
+      lcd.setCursor(9,0);
       lcd.print(g,0);
       if (g < 100) lcd.print(" ");
       if (g < 10) lcd.print(" ");
       
-      lcd.setCursor(10,1);
+      lcd.setCursor(9,1);
       lcd.print(int(h),1);
       if (h < 100) lcd.print(" ");
       if (h < 10) lcd.print(" ");

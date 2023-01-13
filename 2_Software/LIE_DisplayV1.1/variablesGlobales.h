@@ -11,7 +11,7 @@ float valorVsal= 48;
 float valorVexc= 28;
 float valorVaux= 12;
 float valorVlinea= 220; 
-float bitsResolucion=12;//4096 valores
+float bitsResolucion=10;//4096 valores
 /////////////////////////////////////////
 float Escala1=0;
 float Escala2=0;
@@ -22,6 +22,15 @@ float Escala6=0;
 float Escala7=0;
 float Escala8=0;
 float Promedio[8]={8,8,8,8,8,8,8,8};
+///////////////////////////////////////////
+float CalADC1=1023;
+float CalADC2=1023;
+float CalADC3=1023;
+float CalADC4=1023;
+float CalADC5=1023;
+float CalADC6=1023;
+float CalADC7=1023;
+float CalADC8=1023;
 ////////////////////////////////////////////
 String VARIABLE1="PD_ANTE: ";
 String VARIABLE2="PR_ANTE: ";
