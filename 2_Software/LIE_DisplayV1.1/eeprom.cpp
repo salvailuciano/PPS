@@ -80,13 +80,13 @@ void readEeprom() {
   Escala7 = preferences.getFloat("var32",0); //
   Escala8 = preferences.getFloat("var33",0); //
 
-  Promedio[0] = preferences.getFloat("var34",8); //
+  Promedio[0] = preferences.getFloat("var34",4); //
   Promedio[1] = preferences.getFloat("var35",8); //
-  Promedio[2] = preferences.getFloat("var36",8); //
+  Promedio[2] = preferences.getFloat("var36",16); //
   Promedio[3] = preferences.getFloat("var37",8); //
-  Promedio[4] = preferences.getFloat("var38",8); //
+  Promedio[4] = preferences.getFloat("var38",4); //
   Promedio[5] = preferences.getFloat("var39",8); //
-  Promedio[6] = preferences.getFloat("var40",8); //
+  Promedio[6] = preferences.getFloat("var40",4); //
   Promedio[7] = preferences.getFloat("var41",8); //
 
 

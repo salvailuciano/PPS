@@ -130,8 +130,8 @@ void loop(){
 // IMPORTANTE => LA FUNCION NO RETORNA EL ARREGLO, PERO AL ENVIARLE CADA ARREGLO POR SEPARADO LOS COMPLETA IGUAL, POR LO TANTO ACTUALIZA LOS ARREGLOS EN EL MAIN
 // Esto se puede sacar si no es necesario guardar los valores de las muestras, el arreglo se crearía, se completa, se calcula promedio y se borra (sería mas eficaz)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,int tipodeMedicion1,int tipodeMedicion2){
-  
+void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,float tipodeMedicion1,float tipodeMedicion2){
+  /*
   for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
 //int aux1,aux2=0;
   if (tipodeMedicion1==0){
@@ -142,7 +142,7 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
      }
      
    }
-   delay(2);
+   delay(5);
    if (t<8) t++;
     else t=0;
     
@@ -157,11 +157,36 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
      }
     
     }
-     delay(2);
+     delay(5);
    if (t<8) t++;
     else t=0;
  
+*/
 
+  for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
+  if (tipodeMedicion1==0){
+    arreglo[muestraActual] = (analogRead(muxin_A)/calAdc)*valor; // El arreglo toma el valor de la primera medicion en escala lineal
+    }
+    else{
+    arreglo[muestraActual] = sq((analogRead(muxin_A)/calAdc))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
+     }
+     delayMicroseconds(30);
+    }
+   t++;
+   for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
+    
+  if (tipodeMedicion2==0){
+    
+    arreglo2[muestraActual] = (analogRead(muxin_B)/calAdc)*valor2; // El arreglo toma el valor de la primera medicion en escala lineal
+    }
+    else{
+    arreglo2[muestraActual] = sq((analogRead(muxin_B)/calAdc))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
+     }
+      delayMicroseconds(30);
+  }
+  t++;
+  if (t>7) t=0;
+  
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
  
   if(flagADC==true){

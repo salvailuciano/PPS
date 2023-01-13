@@ -86,7 +86,7 @@ int calibracionesGenerales(){
         UNIDAD1 = command;
        // Serial.println("Listo");
         resetInput();
-        Serial.println("Ingrese valor a mostrar variable 1:");
+        Serial.println("Ingrese valor full escala de la variable 1:");
         waitForUserInput();
         Serial.println(command);
         valorPD =command.toFloat();
@@ -98,11 +98,16 @@ int calibracionesGenerales(){
         Serial.println(command);
         Escala1 =command.toFloat();
         resetInput();
+
+        Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[0] =command.toFloat();
+        resetInput();
+        
         writeEEPROMVariables(0);
         }
 
-
-        
       else if (command.equals("002")){
         resetInput();
         Serial.println("Ingrese el nombre de la variable 2:");
@@ -110,23 +115,33 @@ int calibracionesGenerales(){
         Serial.println(command);
         VARIABLE2 = command;
         resetInput();
+        
         Serial.println("Ingrese la unidad de la variable 2:");
         waitForUserInput();
         //command.trim();
         Serial.println(command);
         UNIDAD2 = command;
         resetInput();
-        Serial.println("Ingrese valor a mostrar variable 2:");
+        
+        Serial.println("Ingrese valor full escala de la variable 2:");
         waitForUserInput();
         Serial.println(command);
         valorPR = command.toFloat();
         resetInput();
+        
         Serial.println("Ingrese la escala de la variable 2:");
         Serial.println("Ingrese 0 para lineal 1 para cuadratica");
         waitForUserInput();
         Serial.println(command);
         Escala2 =command.toFloat();
         resetInput();
+        
+        Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[1] =command.toFloat();
+        resetInput();
+        
         writeEEPROMVariables(1);
       }
       else if (command.equals("003")){
@@ -144,7 +159,7 @@ int calibracionesGenerales(){
         UNIDAD3 = command;
         resetInput();
         
-        Serial.println("Ingrese valor a mostrar variable 3:");
+        Serial.println("Ingrese valor full escala de la variable 3:");
         waitForUserInput();
         Serial.println(command);
         valorAGC = command.toFloat();
@@ -155,6 +170,12 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         Escala3 =command.toFloat();
+        resetInput();
+
+       Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[2] =command.toFloat();
         resetInput();
         
         writeEEPROMVariables(2);
@@ -174,7 +195,7 @@ int calibracionesGenerales(){
         UNIDAD4 = command;
         resetInput();
         
-        Serial.println("Ingrese valor a mostrar variable 4:");
+        Serial.println("Ingrese valor full escala de la variable 4:");
         waitForUserInput();
         Serial.println(command);
         valorIsal = command.toFloat();
@@ -185,6 +206,12 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         Escala4 =command.toFloat();
+        resetInput();
+
+        Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[3] =command.toFloat();
         resetInput();
         
         writeEEPROMVariables(3);
@@ -204,7 +231,7 @@ int calibracionesGenerales(){
         UNIDAD5 = command;
         resetInput();
         
-        Serial.println("Ingrese valor a mostrar variable 5:");
+        Serial.println("Ingrese valor full escala de la variable 5:");
         waitForUserInput();
         Serial.println(command);
         valorVsal = command.toFloat();
@@ -215,6 +242,12 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         Escala5 =command.toFloat();
+        resetInput();
+        
+        Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[4] =command.toFloat();
         resetInput();
         
         writeEEPROMVariables(4);
@@ -234,7 +267,7 @@ int calibracionesGenerales(){
         UNIDAD6 = command;
         resetInput();
         
-        Serial.println("Ingrese valor a mostrar variable 6:");
+        Serial.println("Ingrese valor full escala de la variable 6:");
         waitForUserInput();
         Serial.println(command);
         valorVexc = command.toFloat();
@@ -245,6 +278,12 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         Escala6 =command.toFloat();
+        resetInput();
+        
+        Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[5] =command.toFloat();
         resetInput();
         
         writeEEPROMVariables(5);
@@ -264,7 +303,7 @@ int calibracionesGenerales(){
         UNIDAD7 = command;
         resetInput();
         
-        Serial.println("Ingrese valor a mostrar variable 7:");
+        Serial.println("Ingrese valor full escala de la variable 7:");
         waitForUserInput();
         Serial.println(command);
         valorVaux = command.toFloat();
@@ -275,6 +314,12 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         Escala7 =command.toFloat();
+        resetInput();
+        
+        Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[6] =command.toFloat();
         resetInput();
         
         writeEEPROMVariables(6);
@@ -294,7 +339,7 @@ int calibracionesGenerales(){
         UNIDAD8 = command;
         resetInput();
         
-        Serial.println("Ingrese valor a mostrar variable 8:");
+        Serial.println("Ingrese valor full escala de la variable 8:");
         waitForUserInput();
         Serial.println(command);
         valorVlinea = command.toFloat();
@@ -305,6 +350,12 @@ int calibracionesGenerales(){
         waitForUserInput();
         Serial.println(command);
         Escala8 =command.toFloat();
+        resetInput();
+
+        Serial.println("Ingrese el numero de valores a promediar:");
+        waitForUserInput();
+        Serial.println(command);
+        Promedio[7] =command.toFloat();
         resetInput();
         
         writeEEPROMVariables(7);
