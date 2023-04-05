@@ -44,6 +44,7 @@ void setup(){
   setup_temperatura();
   setup_interrupcion();
   readEeprom();// Lee los valores almacenados en la eeprom
+  mostrarnombredeEquipo();
 
 }
 ////////////////////////////////////////////////////////////LOOP//////////////////////////////////////////////////////////////////
@@ -59,41 +60,65 @@ void loop(){
   float tensionExc[cantidadMuestras] {};
   float tensionAux[cantidadMuestras] {};
   float tensionLinea[cantidadMuestras] {};
-  
+
+  float potenciaTransferidaProm;
+  float potenciaReflejadaProm;
+  float AGCProm ;
+  float corrienteSalidaProm; 
+  float tensionSalidaProm;
+  float tensionExcProm ;
+  float tensionAuxProm ;
+  float tensionLineaProm;
+       
 //////////////////////LECTURA DE ENTRADA////////////////////////////
   //Serial.print("##MEDICIONES 1 y 2: ");
-  tomarMedicion(valorPD, potenciaTransferida, valorPR, potenciaReflejada, 1, CalADC1, CalADC2, Escala1, Escala2);
-  float potenciaTransferidaProm = valorPromedio;
-  float potenciaReflejadaProm = valorPromedio2;
+  
+  tomarMedicion(valorPD, potenciaTransferida, 1, CalADC1, Escala1);
+  potenciaTransferidaProm = valorPromedio;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+  
+  tomarMedicion1(valorPR, potenciaReflejada, 1, CalADC2, Escala2);
+  potenciaReflejadaProm = valorPromedio2;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+ 
   //Serial.print("##MEDICIONES 3 y 4: ");
-  tomarMedicion(valorAGC, AGC, valorIsal, corrienteSalida, 2, CalADC3, CalADC4, Escala3, Escala4);
-  float AGCProm = valorPromedio;
-  float corrienteSalidaProm = valorPromedio2;
+  tomarMedicion(valorAGC, AGC, 2, CalADC3, Escala3);
+  AGCProm = valorPromedio;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+  
+  tomarMedicion1(valorIsal, corrienteSalida, 2, CalADC4, Escala4);
+  corrienteSalidaProm = valorPromedio2;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
   //Serial.print("##MEDICIONES 5 y 6: ");
-  tomarMedicion(valorVsal, tensionSalida, valorVexc, tensionExc, 3, CalADC5, CalADC6, Escala6, Escala6);
-  float tensionSalidaProm = valorPromedio;
-  float tensionExcProm = valorPromedio2;
-  //erial.print("##MEDICIONES 7 y 8: ");
-  tomarMedicion(valorVaux, tensionAux, valorVlinea, tensionLinea, 0, CalADC7, CalADC8, Escala7, Escala8);
-  float tensionAuxProm = valorPromedio;
-  float tensionLineaProm = valorPromedio2;
+
+
+  tomarMedicion(valorVsal, tensionSalida, 3, CalADC5, Escala5);
+  tensionSalidaProm = valorPromedio;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+ 
+ 
+  tomarMedicion1(valorVexc, tensionExc, 3, CalADC6, Escala6);
+  tensionExcProm = valorPromedio2;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+
+
+  //Serial.print("##MEDICIONES 7 y 8: ");
+
+  tomarMedicion(valorVaux, tensionAux, 0, CalADC7, Escala7);
+  tensionAuxProm = valorPromedio;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+
+  tomarMedicion1(valorVlinea, tensionLinea, 0, CalADC8, Escala8);
+  tensionLineaProm = valorPromedio2;
+  actualizarPromedios(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
+   
   float temperatura=lecturaTemperatura();
   
   mostrarTemperatura(temperatura);
   mostrarCalibraciones();
   mostrarcalibracionSerial();
   mostrarnombreVariables();
-  
-  //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
-  if (interruptCounter > 0) {
- 
-    portENTER_CRITICAL(&timerMux);
-    interruptCounter--;
-    portEXIT_CRITICAL(&timerMux);
- 
-  mostrarValores(potenciaTransferidaProm, potenciaReflejadaProm, AGCProm, corrienteSalidaProm, tensionSalidaProm, tensionExcProm, tensionAuxProm, tensionLineaProm);//Manda los valores promedios a menu 
-  Serial.println("Midiendo");
-  }
+
   if(flagValores==true){
     Serial.println();
     Serial.print("1) PD promedio: ");
@@ -131,7 +156,7 @@ void loop(){
 // IMPORTANTE => LA FUNCION NO RETORNA EL ARREGLO, PERO AL ENVIARLE CADA ARREGLO POR SEPARADO LOS COMPLETA IGUAL, POR LO TANTO ACTUALIZA LOS ARREGLOS EN EL MAIN
 // Esto se puede sacar si no es necesario guardar los valores de las muestras, el arreglo se crearía, se completa, se calcula promedio y se borra (sería mas eficaz)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[], int medicionN,float calibracion1, float calibracion2 ,float tipodeMedicion1,float tipodeMedicion2){
+void tomarMedicion(float valor, float arreglo[], int medicionN,float calibracion1,float tipodeMedicion1){
 
   for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
   if (tipodeMedicion1==0){
@@ -140,9 +165,18 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
     else{
     arreglo[muestraActual] = sq((analogRead(muxin_A)/calibracion1))*valor;//sq es la lectura al cuadrado// El arreglo toma el valor de la primera medicion en escala cuadratica
      }
-     delayMicroseconds(30);
+     delay(20);
     }
    t++;
+     if (t>7) t=0;
+
+  selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
+  valorPromedio = calcularProm(arreglo);
+  leerBotones();
+
+}
+void tomarMedicion1(float valor2, float arreglo2[], int medicionN, float calibracion2 ,float tipodeMedicion2){
+
    for(int muestraActual = 0 ; muestraActual < Promedio[t] ; muestraActual++){
     
   if (tipodeMedicion2==0){
@@ -152,10 +186,10 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
     else{
     arreglo2[muestraActual] = sq((analogRead(muxin_B)/calibracion2))*valor2;// El arreglo toma el valor de la primera medicion en escala cuadratica
      }
-      delayMicroseconds(30);
+      delay(20);
   }
   t++;
-  if (t>7) t=0;
+
   
   selectChannelMux(medicionN);//Para dar tiempo al ADC a estabilizar la medicion, mientras calcula el promedio
  
@@ -178,8 +212,19 @@ void tomarMedicion(float valor, float arreglo[], float valor2, float arreglo2[],
  
     if (muxMuestras>7) muxMuestras=0;
   }
-  leerBotones();
-  valorPromedio = calcularProm(arreglo);
   valorPromedio2 = calcularProm(arreglo2);
  
 }
+
+  void actualizarPromedios(int valor1, int valor2, int valor3, int valor4, int valor5, int valor6, int valor7, int valor8){
+  //////////////////////ENVIA PROMEDIOS A MENU////////////////////////////
+  if (interruptCounter > 0) {
+ 
+    portENTER_CRITICAL(&timerMux);
+    interruptCounter--;
+    portEXIT_CRITICAL(&timerMux);
+ 
+  mostrarValores(valor1, valor2, valor3, valor4, valor5, valor6, valor7, valor8);//Manda los valores promedios a menu 
+  Serial.println("Midiendo");
+   }
+  }
